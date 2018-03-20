@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Net.Sockets;
 using System;
+using Common;
 
 public class ClientManager : BaseManager<ClientManager>
 {
@@ -24,6 +25,12 @@ public class ClientManager : BaseManager<ClientManager>
             Debug.Log("连接socket失败："+e);
         }
         return base.OnInit();
+    }
+
+    public void SendRequest(RequestCode requestCode, ActionCode actionCode,string data)
+    {
+        byte[] bytes = Message.PackData(requestCode, actionCode, data);
+        clientSocket.Send(bytes);
     }
 
     public override void OnDesotry()
