@@ -49,7 +49,7 @@ public class Message
 
 
     public string GetOneContent(int newDataAmount
-        , Action<RequestCode, ActionCode, string> processDataCallBack)
+        , Action<RequestCode, string> processDataCallBack)
     {
         AddIndex(newDataAmount);
         if (startIndex <= 4)
@@ -61,11 +61,11 @@ public class Message
         {
             RequestCode requestCode = (RequestCode)BitConverter.ToInt32(data, 4);
             ActionCode actionCode = (ActionCode)BitConverter.ToInt32(data, 8);
-            string str = Encoding.UTF8.GetString(data, 12, count - 8);
+            string str = Encoding.UTF8.GetString(data, 8, count - 4);
 
             Array.Copy(data, count + 4, data, 0, startIndex - 4 - count);
             startIndex -= count + 4;
-            processDataCallBack(requestCode, actionCode, str);
+            processDataCallBack(requestCode, str);
             return str;
         }
         return null;
@@ -73,7 +73,7 @@ public class Message
 
 
     public List<string> GetAllContent(int newDataAmount
-        , Action<RequestCode, ActionCode, string> processDataCallBack)
+        , Action<RequestCode, string> processDataCallBack)
     {
         List<string> strList = new List<string>();
         while (true)

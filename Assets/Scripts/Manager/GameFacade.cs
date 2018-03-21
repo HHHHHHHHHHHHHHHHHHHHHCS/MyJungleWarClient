@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class GameFacade : MonoBehaviour
 {
+    public static GameFacade Instance { get; private set; }
+
     public PlayerManager PlayerManager { get; private set; }
     public CameraManager CameraManager { get; private set; }
     public UIManager UIManager { get; private set; }
@@ -13,12 +15,24 @@ public class GameFacade : MonoBehaviour
 
     private void InitManager()
     {
-        PlayerManager = new PlayerManager().OnInit();
-        CameraManager = new CameraManager().OnInit();
-        UIManager = new UIManager().OnInit();
-        AudioManager = new AudioManager().OnInit();
-        RequestManager = new RequestManager().OnInit();
-        ClientManager = new ClientManager().OnInit();
+        PlayerManager = new PlayerManager(this).OnInit();
+        CameraManager = new CameraManager(this).OnInit();
+        UIManager = new UIManager(this).OnInit();
+        AudioManager = new AudioManager(this).OnInit();
+        RequestManager = new RequestManager(this).OnInit();
+        ClientManager = new ClientManager(this).OnInit();
+    }
+
+    private void Awake()
+    {
+        if(Instance != null)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
     }
 
     private void OnDestroy()

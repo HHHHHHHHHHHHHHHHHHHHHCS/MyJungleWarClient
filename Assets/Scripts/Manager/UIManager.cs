@@ -4,5 +4,8 @@ using UnityEngine;
 
 public class UIManager : BaseManager<UIManager>
 {
+    public UIManager(GameFacade facade) : base(facade)
+    {
 
+    }
 }
