@@ -51,8 +51,8 @@ public class ClientManager : BaseManager<ClientManager>
         try
         {
             int count = clientSocket.EndReceive(ar);
-
             msg.GetOneContent(count, OnProcessDataCallBack);
+            StartReceive();
         }
         catch (Exception e)
         {
@@ -62,7 +62,7 @@ public class ClientManager : BaseManager<ClientManager>
 
     private void OnProcessDataCallBack(RequestCode requestCode, string data)
     {
-
+        facade.HandleRespone(requestCode, data);
     }
 
     public override void OnDesotry()

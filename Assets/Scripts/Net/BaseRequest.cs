@@ -9,7 +9,7 @@ public class BaseRequest : MonoBehaviour
 
     public void Awake()
     {
-        GameFacade.Instance.RequestManager.AddRequest(requestCode, this);
+        GameFacade.Instance.AddRequest(requestCode, this);
     }
 
     public virtual void SendRequest()
@@ -22,8 +22,9 @@ public class BaseRequest : MonoBehaviour
 
     }
 
+
     protected virtual void OnDestroy()
     {
-        GameFacade.Instance.RequestManager.RemoveRequest(requestCode);
+        GameFacade.Instance.RemoveRequest(requestCode);
     }
 }
