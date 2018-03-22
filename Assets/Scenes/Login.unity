@@ -45861,7 +45861,7 @@ Prefab:
     - target: {fileID: 224968105395468156, guid: f51ed5b522e357c4284324a20fa46963,
         type: 2}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224968105395468156, guid: f51ed5b522e357c4284324a20fa46963,
         type: 2}
@@ -65011,6 +65011,7 @@ GameObject:
   - component: {fileID: 1701853484}
   - component: {fileID: 1701853486}
   - component: {fileID: 1701853485}
+  - component: {fileID: 1701853487}
   m_Layer: 5
   m_Name: MessagePanel
   m_TagString: Untagged
@@ -65070,6 +65071,17 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1701853483}
+--- !u!114 &1701853487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1701853483}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0b70171454c80946b639a435da77b94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1703299159
 GameObject:
   m_ObjectHideFlags: 0
@@ -66979,6 +66991,7 @@ GameObject:
   - component: {fileID: 1784216452}
   - component: {fileID: 1784216454}
   - component: {fileID: 1784216453}
+  - component: {fileID: 1784216455}
   m_Layer: 5
   m_Name: RegisterPanel
   m_TagString: Untagged
@@ -67042,6 +67055,17 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1784216451}
+--- !u!114 &1784216455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1784216451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d383906286807c40ae2ea79763aeb30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1784991159
 Prefab:
   m_ObjectHideFlags: 0
@@ -67321,8 +67345,8 @@ RectTransform:
   m_LocalPosition: {x: 960, y: 540, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 2060373149}
   - {fileID: 1212384798}
+  - {fileID: 2060373149}
   - {fileID: 2103220312}
   - {fileID: 1784216452}
   - {fileID: 1701853484}
@@ -77842,6 +77866,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 2060373149}
+  - component: {fileID: 2060373150}
   m_Layer: 5
   m_Name: StartPanel
   m_TagString: Untagged
@@ -77861,13 +77886,24 @@ RectTransform:
   m_Children:
   - {fileID: 1632781410}
   m_Father: {fileID: 1790333596}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2060373150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2060373148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0568bb4ae2df344db68587cd070551f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2062097762
 Prefab:
   m_ObjectHideFlags: 0
@@ -79447,6 +79483,7 @@ GameObject:
   - component: {fileID: 2103220312}
   - component: {fileID: 2103220314}
   - component: {fileID: 2103220313}
+  - component: {fileID: 2103220315}
   m_Layer: 5
   m_Name: LoginPanel
   m_TagString: Untagged
@@ -79510,6 +79547,17 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2103220311}
+--- !u!114 &2103220315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2103220311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04356182451d7fa4995a2e1380032962, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2104336990
 Prefab:
   m_ObjectHideFlags: 0
@@ -79643,7 +79691,7 @@ MonoBehaviour:
     m_MaxSize: 66
     m_Alignment: 4
     m_AlignByGeometry: 0
-    m_RichText: 1
+    m_RichText: 0
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
