@@ -14,7 +14,7 @@ public class BasePanel : MonoBehaviour
     /// </summary>
     public virtual void OnEnter()
     {
-
+        gameObject.SetActive(true);
     }
 
     /// <summary>

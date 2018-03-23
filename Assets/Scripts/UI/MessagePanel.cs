@@ -20,7 +20,6 @@ public class MessagePanel : BasePanel
 
     public override void OnEnter()
     {
-        gameObject.SetActive(true);
         base.OnEnter();
     }
 
