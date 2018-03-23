@@ -13,11 +13,6 @@ public class ClientManager : BaseManager<ClientManager>
     private Socket clientSocket;
     private Message msg;
 
-    public ClientManager(GameFacade facade) : base(facade)
-    {
-
-    }
-
     public override ClientManager OnInit()
     {
         clientSocket = new Socket(AddressFamily.InterNetwork
@@ -62,7 +57,7 @@ public class ClientManager : BaseManager<ClientManager>
 
     private void OnProcessDataCallBack(RequestCode requestCode, string data)
     {
-        facade.HandleRespone(requestCode, data);
+        GameFacade.Instance.HandleRespone(requestCode, data);
     }
 
     public override void OnDesotry()

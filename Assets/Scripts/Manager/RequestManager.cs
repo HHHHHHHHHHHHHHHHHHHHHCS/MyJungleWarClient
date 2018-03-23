@@ -8,11 +8,6 @@ public class RequestManager : BaseManager<RequestManager>
     private Dictionary<RequestCode, BaseRequest> requestDic
         = new Dictionary<RequestCode, BaseRequest>();
 
-    public RequestManager(GameFacade facade) : base(facade)
-    {
-
-    }
-
 
     public void AddRequest(RequestCode requestCode, BaseRequest baseRequest)
     {

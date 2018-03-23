@@ -13,25 +13,26 @@ public class GameFacade : MonoBehaviour
     public RequestManager RequestManager { get; private set; }
     public ClientManager ClientManager { get; private set; }
 
-    private void InitManager()
+    public void OnIntGameFacade()
     {
-        PlayerManager = new PlayerManager(this).OnInit();
-        CameraManager = new CameraManager(this).OnInit();
-        UIManager = new UIManager(this).OnInit();
-        AudioManager = new AudioManager(this).OnInit();
-        RequestManager = new RequestManager(this).OnInit();
-        ClientManager = new ClientManager(this).OnInit();
+        PlayerManager = new PlayerManager().OnInit();
+        CameraManager = new CameraManager().OnInit();
+        UIManager = new UIManager().OnInit();
+        AudioManager = new AudioManager().OnInit();
+        RequestManager = new RequestManager().OnInit();
+        ClientManager = new ClientManager().OnInit();
     }
 
     private void Awake()
     {
-        if(Instance != null)
+        if(Instance)
         {
             Destroy(gameObject);
         }
         else
         {
             Instance = this;
+            OnIntGameFacade();
         }
     }
 

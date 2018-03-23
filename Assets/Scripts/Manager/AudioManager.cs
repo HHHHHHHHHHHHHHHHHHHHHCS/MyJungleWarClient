@@ -4,8 +4,5 @@ using UnityEngine;
 
 public class AudioManager : BaseManager<AudioManager>
 {
-    public AudioManager(GameFacade facade):base(facade)
-    {
 
-    }
 }
