@@ -22,7 +22,7 @@ public class BasePanel : MonoBehaviour
     /// </summary>
     public virtual void OnPause()
     {
-
+        gameObject.SetActive(false);
     }
 
     /// <summary>
@@ -30,7 +30,7 @@ public class BasePanel : MonoBehaviour
     /// </summary>
     public virtual void OnResume()
     {
-
+        gameObject.SetActive(true);
     }
 
     /// <summary>
@@ -38,6 +38,6 @@ public class BasePanel : MonoBehaviour
     /// </summary>
     public virtual void OnExit()
     {
-
+        gameObject.SetActive(false);
     }
 }

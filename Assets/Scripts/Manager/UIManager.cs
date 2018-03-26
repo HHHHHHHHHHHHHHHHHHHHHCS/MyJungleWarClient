@@ -6,10 +6,12 @@ public class UIManager : BaseManager<UIManager>
 {
     private Transform root;
 
+    private Stack<BasePanel> panelStack;
     private Dictionary<string, BasePanel> panelDic;
 
     public override UIManager OnInit()
     {
+        panelStack = new Stack<BasePanel>();
         panelDic = new Dictionary<string, BasePanel>();
         root = GameObject.Find(UINames.uiRootPath).transform;
         foreach (var item in root.GetComponentsInChildren<BasePanel>(true))
@@ -31,13 +33,23 @@ public class UIManager : BaseManager<UIManager>
         return null;
     }
 
-    public void ShowPanel(string panelName)
+    public void ShowPanel(string panelName, bool needLastHide = true)
     {
         BasePanel panel = GetPanel<BasePanel>(panelName);
         if (panel)
         {
-            panel.OnEnter();
+            if (needLastHide && panelStack.Count > 0)
+            {
+                PausePanel(panelStack.Peek());
+            }
+            panelStack.Push(panel);
+            ShowPanel(panel);
         }
+    }
+
+    public void ShowPanel(BasePanel panel)
+    {
+        panel.OnEnter();
     }
 
     public void HidePanel(string panelName)
@@ -45,7 +57,34 @@ public class UIManager : BaseManager<UIManager>
         BasePanel panel = GetPanel<BasePanel>(panelName);
         if (panel)
         {
-            panel.OnExit();
+            HidePanel(panel);
+        }
+    }
+
+    public void HidePanel(BasePanel panel)
+    {
+        panel.OnExit();
+    }
+
+    public void PausePanel(BasePanel panel)
+    {
+        panel.OnPause();
+    }
+
+    public void ResumePanel(BasePanel panel)
+    {
+        panel.OnResume();
+    }
+
+    public void BackLastPanel()
+    {
+        if (panelStack.Count > 0)
+        {
+            HidePanel(panelStack.Pop());
+            if (panelStack.Count > 0)
+            {
+                ResumePanel(panelStack.Peek());
+            }
         }
     }
 
@@ -57,4 +96,6 @@ public class UIManager : BaseManager<UIManager>
             panel.ShowMessage(data);
         }
     }
+
+
 }
