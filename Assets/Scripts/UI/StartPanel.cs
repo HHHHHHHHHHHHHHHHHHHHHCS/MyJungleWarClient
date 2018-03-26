@@ -8,7 +8,7 @@ public class StartPanel : BasePanel
     public override void OnInit()
     {
         base.OnInit();
-        transform.Find(UINames.LoginButtonPath).GetComponent<Button>()
+        transform.Find(UINames.showLoginButtonPath).GetComponent<Button>()
             .onClick.AddListener(ClickLoginButton);
     }
 

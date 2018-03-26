@@ -5,38 +5,37 @@ using UnityEngine;
 
 public class RequestManager : BaseManager<RequestManager>
 {
-    private Dictionary<RequestCode, BaseRequest> requestDic
-        = new Dictionary<RequestCode, BaseRequest>();
+    private Dictionary<ActionCode, BaseRequest> requestDic
+        = new Dictionary<ActionCode, BaseRequest>();
 
 
-    public void AddRequest(RequestCode requestCode, BaseRequest baseRequest)
+    public void AddRequest(ActionCode actionCode, BaseRequest baseRequest)
     {
-        if (!requestDic.ContainsKey(requestCode))
+        if (!requestDic.ContainsKey(actionCode))
         {
-            requestDic.Add(requestCode, baseRequest);
+            requestDic.Add(actionCode, baseRequest);
         }
     }
 
-    public void RemoveRequest(RequestCode requestCode)
+    public void RemoveRequest(ActionCode actionCode)
     {
-        if (requestDic.ContainsKey(requestCode))
+        if (requestDic.ContainsKey(actionCode))
         {
-            requestDic.Remove(requestCode);
+            requestDic.Remove(actionCode);
         }
     }
 
-
-    public virtual void HandleRespone(RequestCode requestCode, string data)
+    public virtual void HandleRespone(ActionCode actionCode, string data)
     {
         BaseRequest baseRequest;
-        requestDic.TryGetValue(requestCode, out baseRequest);
+        requestDic.TryGetValue(actionCode, out baseRequest);
         if(baseRequest)
         {
             baseRequest.OnResponse(data);
         }
         else
         {
-            Debug.Log("无法得到RequestCode["+requestCode + "]对应的BaseRequest");
+            Debug.Log("无法得到ActionCode["+ actionCode + "]对应的BaseRequest");
         }
     }
 }

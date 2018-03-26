@@ -55,9 +55,9 @@ public class ClientManager : BaseManager<ClientManager>
         }
     }
 
-    private void OnProcessDataCallBack(RequestCode requestCode, string data)
+    private void OnProcessDataCallBack(ActionCode actionCode, string data)
     {
-        GameFacade.Instance.HandleRespone(requestCode, data);
+        GameFacade.Instance.HandleRespone(actionCode, data);
     }
 
     public override void OnDesotry()

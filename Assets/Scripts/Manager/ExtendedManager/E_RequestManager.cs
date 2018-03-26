@@ -6,21 +6,21 @@ using UnityEngine;
 public static class E_RequestManager
 {
     public static void AddRequest(this GameFacade facade
-        ,RequestCode requestCode,BaseRequest baseRequest)
+        , ActionCode actionCode, BaseRequest baseRequest)
     {
-        facade.RequestManager.AddRequest(requestCode, baseRequest);
+        facade.RequestManager.AddRequest(actionCode, baseRequest);
     }
 
     public static void RemoveRequest(this GameFacade facade
-        , RequestCode requestCode)
+        , ActionCode actionCode)
     {
-        facade.RequestManager.RemoveRequest(requestCode);
+        facade.RequestManager.RemoveRequest(actionCode);
     }
 
     public static void HandleRespone(this GameFacade facade
-        , RequestCode requestCode,string data)
+        , ActionCode actionCode, string data)
     {
-        facade.RequestManager.HandleRespone(requestCode, data);
+        facade.RequestManager.HandleRespone(actionCode, data);
     }
 
 }

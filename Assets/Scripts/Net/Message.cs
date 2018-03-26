@@ -49,7 +49,7 @@ public class Message
 
 
     public string GetOneContent(int newDataAmount
-        , Action<RequestCode, string> processDataCallBack)
+        , Action<ActionCode, string> processDataCallBack)
     {
         AddIndex(newDataAmount);
         if (startIndex <= 4)
@@ -65,7 +65,7 @@ public class Message
 
             Array.Copy(data, count + 4, data, 0, startIndex - 4 - count);
             startIndex -= count + 4;
-            processDataCallBack(requestCode, str);
+            processDataCallBack(actionCode, str);
             return str;
         }
         return null;
@@ -73,7 +73,7 @@ public class Message
 
 
     public List<string> GetAllContent(int newDataAmount
-        , Action<RequestCode, string> processDataCallBack)
+        , Action<ActionCode, string> processDataCallBack)
     {
         List<string> strList = new List<string>();
         while (true)

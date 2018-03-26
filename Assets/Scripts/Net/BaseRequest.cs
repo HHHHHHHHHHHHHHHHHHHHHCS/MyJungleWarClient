@@ -5,11 +5,12 @@ using UnityEngine;
 
 public class BaseRequest : MonoBehaviour
 {
-    private RequestCode requestCode = RequestCode.None;
+    protected RequestCode requestCode = RequestCode.None;
+    protected ActionCode actionCode = ActionCode.None;
 
     public void Awake()
     {
-        GameFacade.Instance.AddRequest(requestCode, this);
+        GameFacade.Instance.AddRequest(actionCode, this);
     }
 
     public virtual void SendRequest()
@@ -25,6 +26,6 @@ public class BaseRequest : MonoBehaviour
 
     protected virtual void OnDestroy()
     {
-        GameFacade.Instance.RemoveRequest(requestCode);
+        GameFacade.Instance.RemoveRequest(actionCode);
     }
 }
