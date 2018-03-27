@@ -8,9 +8,14 @@ public class BaseRequest : MonoBehaviour
     protected RequestCode requestCode = RequestCode.None;
     protected ActionCode actionCode = ActionCode.None;
 
-    public void Awake()
+    protected virtual void Awake()
     {
         GameFacade.Instance.AddRequest(actionCode, this);
+    }
+
+    protected virtual void SendRequest(string data)
+    {
+        GameFacade.Instance.Send(requestCode, actionCode, data);
     }
 
     public virtual void SendRequest()

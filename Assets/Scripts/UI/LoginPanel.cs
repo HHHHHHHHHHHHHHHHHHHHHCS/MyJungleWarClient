@@ -8,10 +8,12 @@ public class LoginPanel : BasePanel
 {
     private InputField usernameIF;
     private InputField passwordIF;
+    private LoginRequest loginRequest;
 
     public override void OnInit()
     {
         base.OnInit();
+        loginRequest = GameFacade.Instance.GetComponent<LoginRequest>();
         Transform root = transform;
         usernameIF = root.Find(UINames.usernameTextPath).GetComponent<InputField>();
         passwordIF = root.Find(UINames.passwordTextPath).GetComponent<InputField>();
@@ -57,7 +59,7 @@ public class LoginPanel : BasePanel
         }
         else
         {
-
+            loginRequest.SendRequest(usernameIF.text, passwordIF.text);
         }
     }
 

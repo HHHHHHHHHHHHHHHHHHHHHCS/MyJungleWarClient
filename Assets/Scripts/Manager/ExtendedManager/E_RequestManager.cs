@@ -23,4 +23,6 @@ public static class E_RequestManager
         facade.RequestManager.HandleRespone(actionCode, data);
     }
 
+
+
 }
