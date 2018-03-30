@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
+using System.Text.RegularExpressions;
 
 public class LoginPanel : BasePanel
 {
@@ -51,6 +52,11 @@ public class LoginPanel : BasePanel
         else if (string.IsNullOrEmpty(passwordIF.text))
         {
             msg += "密码不能为空";
+        }
+        else if(Regex.IsMatch(usernameIF.text, @"[\,]")
+            || Regex.IsMatch(passwordIF.text, @"[\,]"))
+        {
+            msg += "帐号密码有非法字符";
         }
 
         if (!string.IsNullOrEmpty(msg))

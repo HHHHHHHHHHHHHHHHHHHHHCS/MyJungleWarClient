@@ -1453,6 +1453,26 @@ Prefab:
       propertyPath: ShapeModule.radiusThickness
       value: 1.0000
       objectReference: {fileID: 0}
+    - target: {fileID: 19800000, guid: d0d47ed1e1db28f4bb7317fde9fd181e, type: 2}
+      propertyPath: ShapeModule.radiusThickness
+      value: 1.0000
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800000, guid: d0d47ed1e1db28f4bb7317fde9fd181e, type: 2}
+      propertyPath: ShapeModule.radiusThickness
+      value: 1.0000
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800000, guid: d0d47ed1e1db28f4bb7317fde9fd181e, type: 2}
+      propertyPath: ShapeModule.radiusThickness
+      value: 1.0000
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800000, guid: d0d47ed1e1db28f4bb7317fde9fd181e, type: 2}
+      propertyPath: ShapeModule.radiusThickness
+      value: 1.0000
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800000, guid: d0d47ed1e1db28f4bb7317fde9fd181e, type: 2}
+      propertyPath: ShapeModule.radiusThickness
+      value: 1.0000
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d0d47ed1e1db28f4bb7317fde9fd181e, type: 2}
   m_IsPrefabParent: 0
@@ -20636,6 +20656,22 @@ Prefab:
 Transform:
   m_PrefabParentObject: {fileID: 400000, guid: 98429981405302849a5577c3db6adff6, type: 2}
   m_PrefabInternal: {fileID: 664030360}
+--- !u!1 &665219518 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1276077153714840, guid: ec755dc04ff12f147a8ff588b04c416c,
+    type: 2}
+  m_PrefabInternal: {fileID: 1556473702}
+--- !u!225 &665219519
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 665219518}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1001 &665608339
 Prefab:
   m_ObjectHideFlags: 0
@@ -25776,6 +25812,26 @@ Prefab:
     - target: {fileID: 19800000, guid: d0d47ed1e1db28f4bb7317fde9fd181e, type: 2}
       propertyPath: ShapeModule.randomDirection
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800000, guid: d0d47ed1e1db28f4bb7317fde9fd181e, type: 2}
+      propertyPath: ShapeModule.radiusThickness
+      value: 1.0000
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800000, guid: d0d47ed1e1db28f4bb7317fde9fd181e, type: 2}
+      propertyPath: ShapeModule.radiusThickness
+      value: 1.0000
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800000, guid: d0d47ed1e1db28f4bb7317fde9fd181e, type: 2}
+      propertyPath: ShapeModule.radiusThickness
+      value: 1.0000
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800000, guid: d0d47ed1e1db28f4bb7317fde9fd181e, type: 2}
+      propertyPath: ShapeModule.radiusThickness
+      value: 1.0000
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800000, guid: d0d47ed1e1db28f4bb7317fde9fd181e, type: 2}
+      propertyPath: ShapeModule.radiusThickness
+      value: 1.0000
       objectReference: {fileID: 0}
     - target: {fileID: 19800000, guid: d0d47ed1e1db28f4bb7317fde9fd181e, type: 2}
       propertyPath: ShapeModule.radiusThickness
@@ -60318,6 +60374,26 @@ Prefab:
     - target: {fileID: 19800000, guid: d0d47ed1e1db28f4bb7317fde9fd181e, type: 2}
       propertyPath: ShapeModule.arc.value
       value: 360
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800000, guid: d0d47ed1e1db28f4bb7317fde9fd181e, type: 2}
+      propertyPath: ShapeModule.radiusThickness
+      value: 1.0000
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800000, guid: d0d47ed1e1db28f4bb7317fde9fd181e, type: 2}
+      propertyPath: ShapeModule.radiusThickness
+      value: 1.0000
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800000, guid: d0d47ed1e1db28f4bb7317fde9fd181e, type: 2}
+      propertyPath: ShapeModule.radiusThickness
+      value: 1.0000
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800000, guid: d0d47ed1e1db28f4bb7317fde9fd181e, type: 2}
+      propertyPath: ShapeModule.radiusThickness
+      value: 1.0000
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800000, guid: d0d47ed1e1db28f4bb7317fde9fd181e, type: 2}
+      propertyPath: ShapeModule.radiusThickness
+      value: 1.0000
       objectReference: {fileID: 0}
     - target: {fileID: 19800000, guid: d0d47ed1e1db28f4bb7317fde9fd181e, type: 2}
       propertyPath: ShapeModule.radiusThickness

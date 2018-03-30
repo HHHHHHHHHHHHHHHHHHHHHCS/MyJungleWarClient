@@ -1,26 +1,28 @@
-﻿using System.Collections;
+﻿using DG.Tweening;
+using DG.Tweening.Core;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class MessagePanel : BasePanel
 {
-    private float delayHideTime = 2f;
-    private float hideTime = 2.5f;
-
-
+    private const float delayHideTime = 2f;
+    private const float hideTime = 2.5f;
 
     private Text text;
     private Image image;
-    private CanvasRenderer textCR;
-    private CanvasRenderer imageCR;
+
+    private CanvasGroup canvasGroup;
+    TweenerCore<float, float, DG.Tweening.Plugins.Options.FloatOptions> tweener;
+    private WaitForSeconds waitTime = new WaitForSeconds(delayHideTime);
+    private Coroutine coroutine;
 
     public override void OnInit()
     {
         image = GetComponent<Image>();
         text = GetComponentInChildren<Text>(true);
-        textCR = text.GetComponent<CanvasRenderer>();
-        imageCR = image.GetComponent<CanvasRenderer>();
+        canvasGroup = GetComponent<CanvasGroup>();
         text.gameObject.SetActive(false);
     }
 
@@ -32,18 +34,27 @@ public class MessagePanel : BasePanel
 
     public void ShowMessage(string msg)
     {
-        textCR.SetAlpha(1);
-        imageCR.SetAlpha(1);
+        if (tweener != null)
+        {
+            tweener.Kill();
+            tweener = null;
+        }
+        if(coroutine!=null)
+        {
+            StopCoroutine(coroutine);
+        }
 
+        canvasGroup.alpha = 1;
         text.gameObject.SetActive(true);
         text.text = msg;
-        Invoke("Hide", delayHideTime);
         OnEnter();
+        coroutine = StartCoroutine(WaitHide());
+
     }
 
-    private void Hide()
+    private IEnumerator WaitHide()
     {
-        text.CrossFadeAlpha(0f, hideTime, false);
-        image.CrossFadeAlpha(0f, hideTime, false);
+        yield return waitTime;
+        tweener = DOTween.To(() => canvasGroup.alpha, x => canvasGroup.alpha = x, 0, hideTime);
     }
 }
