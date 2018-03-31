@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,6 +9,8 @@ public class UIManager : BaseManager<UIManager>
 
     private Stack<BasePanel> panelStack;
     private Dictionary<string, BasePanel> panelDic;
+
+    private MessagePanel messagePanel;
 
     public override UIManager OnInit()
     {
@@ -31,6 +34,14 @@ public class UIManager : BaseManager<UIManager>
             return (T)panel;
         }
         return null;
+    }
+
+    public override void OnUpdate()
+    {
+        if (messagePanel)
+        {
+            messagePanel.UpdateByMessage();
+        }
     }
 
     public void ShowPanel(string panelName, bool needLastHide = true)
@@ -88,12 +99,27 @@ public class UIManager : BaseManager<UIManager>
         }
     }
 
+    public void ShowMessageSync(string data)
+    {
+        if (!messagePanel)
+        {
+            messagePanel = GetPanel<MessagePanel>(UINames.messagePanel);
+        }
+        if (messagePanel)
+        {
+            messagePanel.ShowMessageSync(data);
+        }
+    }
+
     public void ShowMessage(string data)
     {
-        var panel = GetPanel<MessagePanel>(UINames.messagePanel);
-        if (panel)
+        if (!messagePanel)
         {
-            panel.ShowMessage(data);
+            messagePanel = GetPanel<MessagePanel>(UINames.messagePanel);
+        }
+        if (messagePanel)
+        {
+            messagePanel.ShowMessage(data);
         }
     }
 

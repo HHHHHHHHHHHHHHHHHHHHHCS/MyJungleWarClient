@@ -4,6 +4,7 @@ using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
 using System.Text.RegularExpressions;
+using Common;
 
 public class LoginPanel : BasePanel
 {
@@ -45,7 +46,7 @@ public class LoginPanel : BasePanel
     private void OnLoginClick()
     {
         string msg = string.Empty;
-        if(string.IsNullOrEmpty(usernameIF.text))
+        if (string.IsNullOrEmpty(usernameIF.text))
         {
             msg += "用户名不能为空";
         }
@@ -53,7 +54,7 @@ public class LoginPanel : BasePanel
         {
             msg += "密码不能为空";
         }
-        else if(Regex.IsMatch(usernameIF.text, @"[\,]")
+        else if (Regex.IsMatch(usernameIF.text, @"[\,]")
             || Regex.IsMatch(passwordIF.text, @"[\,]"))
         {
             msg += "帐号密码有非法字符";
@@ -66,6 +67,18 @@ public class LoginPanel : BasePanel
         else
         {
             loginRequest.SendRequest(usernameIF.text, passwordIF.text);
+        }
+    }
+
+    public void OnLoginRespone(ReturnCode code)
+    {
+        if (code == ReturnCode.Success)
+        {
+
+        }
+        else if (code == ReturnCode.Fail)
+        {
+            GameFacade.Instance.UIManager.ShowMessageSync("用户名或密码错误！");
         }
     }
 

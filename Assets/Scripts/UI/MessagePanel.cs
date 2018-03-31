@@ -17,6 +17,7 @@ public class MessagePanel : BasePanel
     TweenerCore<float, float, DG.Tweening.Plugins.Options.FloatOptions> tweener;
     private WaitForSeconds waitTime = new WaitForSeconds(delayHideTime);
     private Coroutine coroutine;
+    private string message;
 
     public override void OnInit()
     {
@@ -26,11 +27,19 @@ public class MessagePanel : BasePanel
         text.gameObject.SetActive(false);
     }
 
-    public override void OnEnter()
+    public void UpdateByMessage()
     {
-        base.OnEnter();
+        if (!string.IsNullOrEmpty(message))
+        {
+            ShowMessage(message);
+            message = null;
+        }
     }
 
+    public void ShowMessageSync(string msg)
+    {
+        message = msg;
+    }
 
     public void ShowMessage(string msg)
     {
@@ -39,17 +48,15 @@ public class MessagePanel : BasePanel
             tweener.Kill();
             tweener = null;
         }
-        if(coroutine!=null)
+        if (coroutine != null)
         {
             StopCoroutine(coroutine);
         }
-
         canvasGroup.alpha = 1;
         text.gameObject.SetActive(true);
         text.text = msg;
         OnEnter();
         coroutine = StartCoroutine(WaitHide());
-
     }
 
     private IEnumerator WaitHide()

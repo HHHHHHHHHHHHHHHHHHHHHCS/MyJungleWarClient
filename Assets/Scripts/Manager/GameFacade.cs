@@ -36,6 +36,11 @@ public class GameFacade : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        UIManager.OnUpdate();
+    }
+
     private void OnDestroy()
     {
         DestoryManager();

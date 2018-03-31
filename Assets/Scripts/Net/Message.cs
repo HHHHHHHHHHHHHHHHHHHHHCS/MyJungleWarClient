@@ -59,10 +59,8 @@ public class Message
         int count = BitConverter.ToInt32(data, 0);
         if ((startIndex - 4) >= count)
         {
-            RequestCode requestCode = (RequestCode)BitConverter.ToInt32(data, 4);
-            ActionCode actionCode = (ActionCode)BitConverter.ToInt32(data, 8);
+            ActionCode actionCode = (ActionCode)BitConverter.ToInt32(data, 4);
             string str = Encoding.UTF8.GetString(data, 8, count - 4);
-
             Array.Copy(data, count + 4, data, 0, startIndex - 4 - count);
             startIndex -= count + 4;
             processDataCallBack(actionCode, str);
