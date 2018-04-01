@@ -11,6 +11,12 @@ public static class E_RequestManager
         facade.RequestManager.AddRequest(actionCode, baseRequest);
     }
 
+    public static T GetRequest<T>(this GameFacade facade
+        ,ActionCode actionCode) where T : BaseRequest
+    {
+        return facade.RequestManager.GetRequest<T>(actionCode);
+    }
+
     public static void RemoveRequest(this GameFacade facade
         , ActionCode actionCode)
     {

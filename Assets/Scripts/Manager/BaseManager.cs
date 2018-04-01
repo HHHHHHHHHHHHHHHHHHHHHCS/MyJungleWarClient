@@ -10,5 +10,8 @@ public class BaseManager<T> where T : BaseManager<T>
     {
 
     }
-    public virtual void OnDesotry() { }
+    public virtual void OnDesotry()
+    {
+
+    }
 }

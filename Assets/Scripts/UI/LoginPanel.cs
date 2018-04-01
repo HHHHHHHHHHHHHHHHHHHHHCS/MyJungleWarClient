@@ -15,10 +15,10 @@ public class LoginPanel : BasePanel
     public override void OnInit()
     {
         base.OnInit();
-        loginRequest = GameFacade.Instance.GetComponent<LoginRequest>();
+        loginRequest = GameFacade.Instance.GetRequest<LoginRequest>(ActionCode.Login);
         Transform root = transform;
-        usernameIF = root.Find(UINames.usernameTextPath).GetComponent<InputField>();
-        passwordIF = root.Find(UINames.passwordTextPath).GetComponent<InputField>();
+        usernameIF = root.Find(UINames.login_usernameTextPath).GetComponent<InputField>();
+        passwordIF = root.Find(UINames.login_passwordTextPath).GetComponent<InputField>();
         root.Find(UINames.closeButtonPath).GetComponent<Button>()
             .onClick.AddListener(OnCloseClick);
         root.Find(UINames.loginButton).GetComponent<Button>()
@@ -30,10 +30,12 @@ public class LoginPanel : BasePanel
     public override void OnEnter()
     {
         base.OnEnter();
+        var nowPos = transform.localPosition;
+        var nowScale = transform.localScale;
         transform.localScale = Vector3.zero;
-        transform.DOScale(1, 0.6f);
         transform.localPosition = new Vector3(1000, 0, 0);
-        transform.DOLocalMove(Vector3.zero, 0.4f);
+        transform.DOScale(1, 0.6f);
+        transform.DOLocalMove(nowPos, 0.4f);
     }
 
     private void OnCloseClick()
@@ -74,7 +76,7 @@ public class LoginPanel : BasePanel
     {
         if (code == ReturnCode.Success)
         {
-
+            GameFacade.Instance.UIManager.ShowMessageSync("登录成功！");
         }
         else if (code == ReturnCode.Fail)
         {
