@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class BasePanel : MonoBehaviour
 {
+    protected Vector3 nowPos;
+    protected Vector3 nowScale;
+
     public virtual void OnInit()
     {
-
+        nowPos = transform.localPosition;
+        nowScale = transform.localScale;
     }
 
     /// <summary>
@@ -39,5 +43,10 @@ public class BasePanel : MonoBehaviour
     public virtual void OnExit()
     {
         gameObject.SetActive(false);
+    }
+
+    protected virtual void PlayClickSound()
+    {
+        GameFacade.Instance.PlayNormalAudio(AudioNames.buttonClick);
     }
 }

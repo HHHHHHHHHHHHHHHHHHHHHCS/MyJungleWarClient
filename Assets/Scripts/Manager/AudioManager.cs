@@ -11,9 +11,20 @@ public class AudioManager : BaseManager<AudioManager>
     {
         audioSource_bg = GameObject.Find(ObjectNames.audioSource_Bg).GetComponent<AudioSource>();
         audioSource_normal = GameObject.Find(ObjectNames.audioSource_Normal).GetComponent<AudioSource>();
-        PlaySound(audioSource_bg, AudioNames.bg_moderate,-1, true, true);
+        PlayBgAudio(AudioNames.bg_moderate);
         return base.OnInit();
     }
+
+    public void PlayBgAudio(string audioName)
+    {
+        PlaySound(audioSource_bg, audioName, -1, true, true);
+    }
+
+    public void PlayNormalAudio(string audioName)
+    {
+        PlaySound(audioSource_bg, audioName, -1);
+    }
+
 
     public void PlaySound(AudioSource source, string _name
         ,float volume = -1, bool needSetClip = false, bool isLoop = false)

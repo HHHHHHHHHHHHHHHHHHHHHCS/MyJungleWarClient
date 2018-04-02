@@ -31,7 +31,6 @@ public class RegisterPanel : BasePanel
 
     public override void OnEnter()
     {
-        var nowScale = transform.localScale;
         transform.localScale = Vector3.zero;
         transform.DOScale(nowScale, 0.4f);
         base.OnEnter();
@@ -39,6 +38,7 @@ public class RegisterPanel : BasePanel
 
     private void OnCloseClick()
     {
+        PlayClickSound();
         transform.DOScale(0, 0.4f);
         transform.DOLocalMove(new Vector3(1000, 0, 0), 0.4f)
             .OnComplete(() => { GameFacade.Instance.UIManager.BackLastPanel(); });
@@ -46,6 +46,7 @@ public class RegisterPanel : BasePanel
 
     private void OnRegisterClick()
     {
+        PlayClickSound();
         string msg = string.Empty;
         if (string.IsNullOrEmpty(usernameIF.text))
         {

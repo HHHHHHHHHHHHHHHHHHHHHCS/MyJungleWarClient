@@ -12,6 +12,7 @@ public class LoginPanel : BasePanel
     private InputField passwordIF;
     private LoginRequest loginRequest;
 
+
     public override void OnInit()
     {
         base.OnInit();
@@ -30,16 +31,16 @@ public class LoginPanel : BasePanel
     public override void OnEnter()
     {
         base.OnEnter();
-        var nowPos = transform.localPosition;
-        var nowScale = transform.localScale;
+
         transform.localScale = Vector3.zero;
         transform.localPosition = new Vector3(1000, 0, 0);
-        transform.DOScale(1, 0.6f);
+        transform.DOScale(nowScale, 0.6f);
         transform.DOLocalMove(nowPos, 0.4f);
     }
 
     private void OnCloseClick()
     {
+        PlayClickSound();
         transform.DOScale(0, 0.4f);
         transform.DOLocalMove(new Vector3(1000, 0, 0), 0.4f)
             .OnComplete(GameFacade.Instance.UIManager.BackLastPanel);
@@ -47,6 +48,7 @@ public class LoginPanel : BasePanel
 
     private void OnLoginClick()
     {
+        PlayClickSound();
         string msg = string.Empty;
         if (string.IsNullOrEmpty(usernameIF.text))
         {

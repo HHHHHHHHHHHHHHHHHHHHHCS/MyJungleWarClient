@@ -14,6 +14,7 @@ public class StartPanel : BasePanel
 
     public void ClickLoginButton()
     {
+        PlayClickSound();
         OnExit();
         GameFacade.Instance.UIManager.ShowPanel(UINames.loginPanel);
     }
