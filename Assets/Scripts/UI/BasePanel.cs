@@ -48,6 +48,7 @@ public class BasePanel : MonoBehaviour
                 default:
                     break;
             }
+            wantPanelState = PanelState.None;
         }
     }
 
@@ -65,7 +66,9 @@ public class BasePanel : MonoBehaviour
     public virtual void OnEnter()
     {
         nowPanelState = PanelState.Enter;
+        ResumeDefaultState();
         gameObject.SetActive(true);
+        OnEnterAnim();
     }
 
     /// <summary>
@@ -99,6 +102,7 @@ public class BasePanel : MonoBehaviour
     public virtual void OnResume()
     {
         nowPanelState = PanelState.Resume;
+        ResumeDefaultState();
         gameObject.SetActive(true);
     }
 
@@ -119,6 +123,23 @@ public class BasePanel : MonoBehaviour
         nowPanelState = PanelState.Exit;
         gameObject.SetActive(false);
     }
+
+
+    public virtual void OnEnterAnim()
+    {
+
+    }
+
+    public virtual void OnExitAnim()
+    {
+
+    }
+
+    public virtual void ResumeDefaultState()
+    {
+
+    }
+
 
     protected virtual void PlayClickSound()
     {

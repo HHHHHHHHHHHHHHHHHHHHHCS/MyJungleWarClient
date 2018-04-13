@@ -8,10 +8,10 @@ using Common;
 
 public class LoginPanel : BasePanel
 {
-    private InputField usernameIF;
-    private InputField passwordIF;
     private LoginRequest loginRequest;
-
+    private InputField usernameIF, passwordIF;
+    private Button clsoeButton, loginButton, registerButton;
+    private bool getMessage = false;
 
     public override void OnInit()
     {
@@ -20,33 +20,65 @@ public class LoginPanel : BasePanel
         Transform root = transform;
         usernameIF = root.Find(UINames.login_usernameTextPath).GetComponent<InputField>();
         passwordIF = root.Find(UINames.login_passwordTextPath).GetComponent<InputField>();
-        root.Find(UINames.closeButtonPath).GetComponent<Button>()
-            .onClick.AddListener(OnCloseClick);
-        root.Find(UINames.loginButton).GetComponent<Button>()
-            .onClick.AddListener(OnLoginClick);
-        root.Find(UINames.showRegisterButton).GetComponent<Button>()
-            .onClick.AddListener(OnRegisterClick);
+        clsoeButton = root.Find(UINames.closeButtonPath).GetComponent<Button>();
+        clsoeButton.onClick.AddListener(OnCloseClick);
+        loginButton = root.Find(UINames.loginButton).GetComponent<Button>();
+        loginButton.onClick.AddListener(OnLoginClick);
+        registerButton = root.Find(UINames.showRegisterButton).GetComponent<Button>();
+        registerButton.onClick.AddListener(OnRegisterClick);
     }
 
     public override void OnEnter()
     {
         base.OnEnter();
+    }
+
+    public override void ResumeDefaultState()
+    {
+        clsoeButton.interactable = true;
+        loginButton.interactable = true;
+        registerButton.interactable = true;
+        usernameIF.text = string.Empty;
+        passwordIF.text = string.Empty;
+    }
+
+    public override void OnUpdate()
+    {
+        base.OnUpdate();
+        if (getMessage)
+        {
+            clsoeButton.interactable = true;
+            loginButton.interactable = true;
+            getMessage = false;
+        }
+    }
+
+    public override void OnEnterAnim()
+    {
         transform.localScale = Vector3.zero;
         transform.localPosition = new Vector3(1000, 0, 0);
         transform.DOScale(nowScale, 0.6f);
         transform.DOLocalMove(nowPos, 0.4f);
     }
 
-    private void OnCloseClick()
+    public override void OnExitAnim()
     {
-        PlayClickSound();
         transform.DOScale(0, 0.4f);
         transform.DOLocalMove(new Vector3(1000, 0, 0), 0.4f)
             .OnComplete(GameFacade.Instance.UIManager.BackLastPanel);
     }
 
+    private void OnCloseClick()
+    {
+        clsoeButton.interactable = false;
+        PlayClickSound();
+        OnExitAnim();
+    }
+
     private void OnLoginClick()
     {
+        clsoeButton.interactable = false;
+        loginButton.interactable = false;
         PlayClickSound();
         string msg = string.Empty;
         if (string.IsNullOrEmpty(usernameIF.text))
@@ -65,6 +97,7 @@ public class LoginPanel : BasePanel
 
         if (!string.IsNullOrEmpty(msg))
         {
+            getMessage = true;
             GameFacade.Instance.UIManager.ShowMessage(msg);
         }
         else
@@ -75,6 +108,7 @@ public class LoginPanel : BasePanel
 
     public void OnLoginRespone(ReturnCode code)
     {
+        getMessage = true;
         if (code == ReturnCode.Success)
         {
             GameFacade.Instance.UIManager.ShowMessageSync("登录成功！");
@@ -88,6 +122,7 @@ public class LoginPanel : BasePanel
 
     private void OnRegisterClick()
     {
+        registerButton.interactable = false;
         GameFacade.Instance.UIManager.ShowPanel(UINames.registerPanel);
     }
 }

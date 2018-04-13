@@ -9,43 +9,77 @@ using System;
 
 public class RegisterPanel : BasePanel
 {
-    private InputField usernameIF;
-    private InputField passwordIF;
-    private InputField repasswordIf;
-    private RegisterRequest registerRequest; 
+    private RegisterRequest registerRequest;
+    private InputField usernameIF, passwordIF, repasswordIf;
+    private Button closeButton, registerButton;
+    private bool getMessage,isSucceed;
 
 
     public override void OnInit()
     {
         base.OnInit();
         registerRequest = GameFacade.Instance.GetRequest<RegisterRequest>(ActionCode.Register);
-        usernameIF = transform.Find(UINames.register_usernameTextPath).GetComponent<InputField>();
-        passwordIF = transform.Find(UINames.register_passwordTextPath).GetComponent<InputField>();
-        repasswordIf = transform.Find(UINames.register_repasswordTextPath).GetComponent<InputField>();
-        transform.Find(UINames.closeButtonPath).GetComponent<Button>()
-            .onClick.AddListener(OnCloseClick);
-        transform.Find(UINames.register_registerButtonPath).GetComponent<Button>()
-            .onClick.AddListener(OnRegisterClick);
+        Transform root = transform;
+        usernameIF = root.Find(UINames.register_usernameTextPath).GetComponent<InputField>();
+        passwordIF = root.Find(UINames.register_passwordTextPath).GetComponent<InputField>();
+        repasswordIf = root.Find(UINames.register_repasswordTextPath).GetComponent<InputField>();
+        closeButton = root.Find(UINames.closeButtonPath).GetComponent<Button>();
+        closeButton.onClick.AddListener(OnCloseClick);
+        registerButton = root.Find(UINames.register_registerButtonPath).GetComponent<Button>();
+        registerButton.onClick.AddListener(OnRegisterClick);
     }
 
+    public override void ResumeDefaultState()
+    {
+        closeButton.interactable = true;
+        registerButton.interactable = true;
+        usernameIF.text = string.Empty;
+        passwordIF.text = string.Empty;
+        repasswordIf.text = string.Empty;
+    }
 
-    public override void OnEnter()
+    public override void OnUpdate()
+    {
+        base.OnUpdate();
+        if (getMessage)
+        {
+            if (isSucceed)
+            {
+                GameFacade.Instance.UIManager.BackLastPanel();
+                isSucceed = false;
+            }
+            else
+            {
+                registerButton.interactable = true;
+
+            }
+            getMessage = false;
+        }
+    }
+
+    public override void OnEnterAnim()
     {
         transform.localScale = Vector3.zero;
         transform.DOScale(nowScale, 0.4f);
-        base.OnEnter();
     }
 
-    private void OnCloseClick()
+    public override void OnExitAnim()
     {
-        PlayClickSound();
         transform.DOScale(0, 0.4f);
         transform.DOLocalMove(new Vector3(1000, 0, 0), 0.4f)
             .OnComplete(() => { GameFacade.Instance.UIManager.BackLastPanel(); });
     }
 
+    private void OnCloseClick()
+    {
+        closeButton.interactable = false;
+        PlayClickSound();
+        OnExitAnim();
+    }
+
     private void OnRegisterClick()
     {
+        registerButton.interactable = false;
         PlayClickSound();
         string msg = string.Empty;
         if (string.IsNullOrEmpty(usernameIF.text))
@@ -79,8 +113,10 @@ public class RegisterPanel : BasePanel
 
     public void OnRegisterRespone(ReturnCode code)
     {
+        getMessage = true;
         if (code == ReturnCode.Success)
         {
+            isSucceed = true;
             GameFacade.Instance.UIManager.ShowMessageSync("注册成功！");
         }
         else if (code == ReturnCode.Fail)

@@ -19,6 +19,8 @@
     public const string register_registerButtonPath = "RegisterButton";
 
     public const string roomListPanel = "RoomListPanel";
+    public const string roomList_BattleInfoPath = "BattleInfo";
+    public const string roomList_RoomListPath = "RoomList";
 
     public const string messagePanel = "MessagePanel";
 

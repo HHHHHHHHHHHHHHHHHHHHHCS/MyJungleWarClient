@@ -45,6 +45,10 @@ public class ClientManager : BaseManager<ClientManager>
     {
         try
         {
+            if (clientSocket == null || !clientSocket.Connected)
+            {
+                return;
+            }
             int count = clientSocket.EndReceive(ar);
             msg.GetOneContent(count, OnProcessDataCallBack);
             StartReceive();
