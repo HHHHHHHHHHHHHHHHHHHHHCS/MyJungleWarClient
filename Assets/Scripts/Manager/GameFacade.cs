@@ -35,10 +35,11 @@ public class GameFacade : MonoBehaviour
         {
             Instance = this;
             OnIntGameFacade();
+            InvokeRepeating("OnUpdate", 0, 0.001f);
         }
     }
 
-    private void Update()
+    private void OnUpdate()
     {
         RequestManager.OnUpdate();
         UIManager.OnUpdate();
