@@ -7,5 +7,5 @@ public class LoginScene : MonoBehaviour
 	private void Awake ()
     {
         GameFacade.Instance.UIManager.ShowPanel(UINames.startPanel);
-	}
+    }
 }

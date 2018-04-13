@@ -21,13 +21,14 @@ public class MessagePanel : BasePanel
 
     public override void OnInit()
     {
+        base.OnInit();
         image = GetComponent<Image>();
         text = GetComponentInChildren<Text>(true);
         canvasGroup = GetComponent<CanvasGroup>();
         text.gameObject.SetActive(false);
     }
 
-    public void UpdateByMessage()
+    public override void OnUpdate()
     {
         if (!string.IsNullOrEmpty(message))
         {
@@ -36,7 +37,7 @@ public class MessagePanel : BasePanel
         }
     }
 
-    public void ShowMessageSync(string msg)
+    public void AsyncShowMessage(string msg)
     {
         message = msg;
     }

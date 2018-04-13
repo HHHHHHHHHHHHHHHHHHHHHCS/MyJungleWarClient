@@ -19,10 +19,10 @@ public class GameFacade : MonoBehaviour
         RequestManager.OnInit();//RequestManager 不能跟上面合并 不然会出现空指针
         PlayerManager = new PlayerManager().OnInit();
         CameraManager = new CameraManager().OnInit();
-        UIManager = new UIManager().OnInit();
+        UIManager = new UIManager();
+        UIManager.OnInit();//UIManager 不能跟上面合并 不然会出现空指针
         AudioManager = new AudioManager().OnInit();
         ClientManager = new ClientManager().OnInit();
-
     }
 
     private void Awake()

@@ -31,7 +31,6 @@ public class LoginPanel : BasePanel
     public override void OnEnter()
     {
         base.OnEnter();
-
         transform.localScale = Vector3.zero;
         transform.localPosition = new Vector3(1000, 0, 0);
         transform.DOScale(nowScale, 0.6f);
@@ -79,6 +78,7 @@ public class LoginPanel : BasePanel
         if (code == ReturnCode.Success)
         {
             GameFacade.Instance.UIManager.ShowMessageSync("登录成功！");
+            GameFacade.Instance.UIManager.AsyncShowPanel(UINames.roomListPanel);
         }
         else if (code == ReturnCode.Fail)
         {

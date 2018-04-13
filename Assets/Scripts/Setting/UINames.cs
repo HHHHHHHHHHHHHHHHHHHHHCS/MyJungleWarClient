@@ -18,6 +18,8 @@
     public const string register_repasswordTextPath = "RePasswordLabel/RePasswordInput";
     public const string register_registerButtonPath = "RegisterButton";
 
+    public const string roomListPanel = "RoomListPanel";
+
     public const string messagePanel = "MessagePanel";
 
 
