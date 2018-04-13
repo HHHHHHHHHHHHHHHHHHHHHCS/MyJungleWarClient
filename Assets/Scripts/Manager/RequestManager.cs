@@ -5,17 +5,37 @@ using UnityEngine;
 
 public class RequestManager : BaseManager<RequestManager>
 {
+    private struct ResponeMessage
+    {
+        public ActionCode actionCode;
+        public string data;
+
+        public ResponeMessage(ActionCode _actionCode, string _data)
+        {
+            actionCode = _actionCode;
+            data = _data;
+        }
+    }
+
+
     private Dictionary<ActionCode, BaseRequest> requestDic
         = new Dictionary<ActionCode, BaseRequest>();
+    private Stack<ResponeMessage> requestMessageStack
+         = new Stack<ResponeMessage>();
 
     public override RequestManager OnInit()
     {
-        var requestArray =  GameFacade.Instance.GetComponentsInChildren<BaseRequest>();
-        foreach(var item in requestArray)
+        var requestArray = GameFacade.Instance.GetComponentsInChildren<BaseRequest>();
+        foreach (var item in requestArray)
         {
             item.OnInit();
         }
         return base.OnInit();
+    }
+
+    public override void OnUpdate()
+    {
+        HandleResponeMessageList();
     }
 
     public void AddRequest(ActionCode actionCode, BaseRequest baseRequest)
@@ -43,15 +63,35 @@ public class RequestManager : BaseManager<RequestManager>
 
     public virtual void HandleRespone(ActionCode actionCode, string data)
     {
-        BaseRequest baseRequest;
-        requestDic.TryGetValue(actionCode, out baseRequest);
-        if (baseRequest)
+        lock (requestMessageStack)
         {
-            baseRequest.OnResponse(data);
+            requestMessageStack.Push(new ResponeMessage(actionCode, data));
         }
-        else
+    }
+
+    public virtual void HandleResponeMessageList()
+    {
+        lock (requestMessageStack)
         {
-            Debug.Log("无法得到ActionCode[" + actionCode + "]对应的BaseRequest");
+            ActionCode actionCode;
+            string data;
+            while (requestMessageStack.Count > 0)
+            {
+                var message = requestMessageStack.Pop();
+                actionCode = message.actionCode;
+                data = message.data;
+
+                BaseRequest baseRequest;
+                requestDic.TryGetValue(actionCode, out baseRequest);
+                if (baseRequest)
+                {
+                    baseRequest.OnResponse(data);
+                }
+                else
+                {
+                    Debug.Log("无法得到ActionCode[" + actionCode + "]对应的BaseRequest");
+                }
+            }
         }
     }
 }

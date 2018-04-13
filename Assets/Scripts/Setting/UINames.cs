@@ -20,6 +20,9 @@
 
     public const string roomListPanel = "RoomListPanel";
     public const string roomList_BattleInfoPath = "BattleInfo";
+    public const string roomList_UsernameTextPath = "UserNameText";
+    public const string roomList_TotalCountTextPath = "TotalCountLabel/TotalCounText";
+    public const string roomList_WinCountTextPath = "WinCountLabel/WinCountText";
     public const string roomList_RoomListPath = "RoomList";
 
     public const string messagePanel = "MessagePanel";

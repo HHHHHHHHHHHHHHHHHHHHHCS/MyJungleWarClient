@@ -112,7 +112,7 @@ public class LoginPanel : BasePanel
         if (code == ReturnCode.Success)
         {
             GameFacade.Instance.UIManager.ShowMessageSync("登录成功！");
-            GameFacade.Instance.UIManager.AsyncShowPanel(UINames.roomListPanel);
+
         }
         else if (code == ReturnCode.Fail)
         {

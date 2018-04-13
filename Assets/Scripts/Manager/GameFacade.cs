@@ -40,6 +40,7 @@ public class GameFacade : MonoBehaviour
 
     private void Update()
     {
+        RequestManager.OnUpdate();
         UIManager.OnUpdate();
     }
 

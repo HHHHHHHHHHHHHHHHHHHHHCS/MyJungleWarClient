@@ -86,49 +86,6 @@ public class UIManager : BaseManager<UIManager>
         panel.OnResume();
     }
 
-    public void AsyncShowPanel(string panelName, bool needLastHide = true)
-    {
-        BasePanel panel = GetPanel<BasePanel>(panelName);
-        if (panel)
-        {
-            if (needLastHide && panelStack.Count > 0)
-            {
-                AsyncPausePanel(panelStack.Peek());
-            }
-            panelStack.Push(panel);
-            AsyncShowPanel(panel);
-        }
-    }
-
-    public void AsyncShowPanel(BasePanel panel)
-    {
-        panel.OnAsyncEnter();
-    }
-
-    public void AsyncHidePanel(string panelName)
-    {
-        BasePanel panel = GetPanel<BasePanel>(panelName);
-        if (panel)
-        {
-            AsyncHidePanel(panel);
-        }
-    }
-
-    public void AsyncHidePanel(BasePanel panel)
-    {
-        panel.OnAsyncExit();
-    }
-
-    public void AsyncPausePanel(BasePanel panel)
-    {
-        panel.OnAsyncPause();
-    }
-
-    public void AsyncResumePanel(BasePanel panel)
-    {
-        panel.OnAsyncResume();
-    }
-
     public void BackLastPanel()
     {
         if (panelStack.Count > 0)
@@ -149,7 +106,7 @@ public class UIManager : BaseManager<UIManager>
         }
         if (messagePanel)
         {
-            messagePanel.AsyncShowMessage(data);
+            messagePanel.ShowMessage(data);
         }
     }
 

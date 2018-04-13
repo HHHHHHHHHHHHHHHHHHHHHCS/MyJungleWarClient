@@ -17,7 +17,6 @@ public class MessagePanel : BasePanel
     TweenerCore<float, float, DG.Tweening.Plugins.Options.FloatOptions> tweener;
     private WaitForSeconds waitTime = new WaitForSeconds(delayHideTime);
     private Coroutine coroutine;
-    private string message;
 
     public override void OnInit()
     {
@@ -26,20 +25,6 @@ public class MessagePanel : BasePanel
         text = GetComponentInChildren<Text>(true);
         canvasGroup = GetComponent<CanvasGroup>();
         text.gameObject.SetActive(false);
-    }
-
-    public override void OnUpdate()
-    {
-        if (!string.IsNullOrEmpty(message))
-        {
-            ShowMessage(message);
-            message = null;
-        }
-    }
-
-    public void AsyncShowMessage(string msg)
-    {
-        message = msg;
     }
 
     public void ShowMessage(string msg)

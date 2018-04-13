@@ -20,8 +20,10 @@ public class RegisterRequest : BaseRequest
 
     public override void OnResponse(string data)
     {
-        ReturnCode returnCode = (ReturnCode)int.Parse(data);
+        string[] result = data.Split(',');
+        ReturnCode returnCode = (ReturnCode)int.Parse(result[0]);
         GameFacade.Instance.UIManager.GetPanel<RegisterPanel>(UINames.registerPanel)
             .OnRegisterRespone(returnCode);
+
     }
 }

@@ -8,6 +8,8 @@ public class RoomListPanel : BasePanel
 {
     private RectTransform battleInfo, roomList;
     private Button closeButton;
+    private Text usernameText, totalCountText, winCountText;
+
 
     public override void OnInit()
     {
@@ -15,6 +17,10 @@ public class RoomListPanel : BasePanel
         Transform root = transform;
         battleInfo = root.Find(UINames.roomList_BattleInfoPath).GetComponent<RectTransform>();
         roomList = root.Find(UINames.roomList_RoomListPath).GetComponent<RectTransform>();
+        usernameText= battleInfo.Find(UINames.roomList_UsernameTextPath).GetComponent<Text>();
+        totalCountText = battleInfo.Find(UINames.roomList_TotalCountTextPath).GetComponent<Text>();
+        winCountText = battleInfo.Find(UINames.roomList_WinCountTextPath).GetComponent<Text>();
+
         closeButton = roomList.Find(UINames.closeButtonPath).GetComponent<Button>();
         closeButton.onClick.AddListener(OnClickClose);
     }
@@ -50,5 +56,12 @@ public class RoomListPanel : BasePanel
         closeButton.interactable = false;
         PlayClickSound();
         OnExitAnim();
+    }
+
+    public void UpdateBattleInfo(string _username,string _totalCount,string _winCount)
+    {
+        usernameText.text = _username;
+        totalCountText.text = _totalCount;
+        winCountText.text = _winCount;
     }
 }

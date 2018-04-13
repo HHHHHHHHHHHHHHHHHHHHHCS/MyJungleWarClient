@@ -20,8 +20,15 @@ public class LoginRequest : BaseRequest
 
     public override void OnResponse(string data)
     {
-        ReturnCode returnCode = (ReturnCode)int.Parse(data);
+        string[] result = data.Split(',');
+        ReturnCode returnCode = (ReturnCode)int.Parse(result[0]);
         GameFacade.Instance.UIManager.GetPanel<LoginPanel>(UINames.loginPanel)
             .OnLoginRespone(returnCode);
+        if (returnCode == ReturnCode.Success)
+        {
+            GameFacade.Instance.UIManager.GetPanel<RoomListPanel>(UINames.roomListPanel)
+                .UpdateBattleInfo(result[1], result[2], result[3]);
+            GameFacade.Instance.UIManager.ShowPanel(UINames.roomListPanel);
+        }
     }
 }
