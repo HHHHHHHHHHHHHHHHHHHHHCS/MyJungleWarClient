@@ -20,8 +20,8 @@ public class RequestManager : BaseManager<RequestManager>
 
     private Dictionary<ActionCode, BaseRequest> requestDic
         = new Dictionary<ActionCode, BaseRequest>();
-    private Stack<ResponeMessage> requestMessageStack
-         = new Stack<ResponeMessage>();
+    private Queue<ResponeMessage> requestMessageQueue
+         = new Queue<ResponeMessage>();
 
     public override RequestManager OnInit()
     {
@@ -63,21 +63,21 @@ public class RequestManager : BaseManager<RequestManager>
 
     public virtual void HandleRespone(ActionCode actionCode, string data)
     {
-        lock (requestMessageStack)
+        lock (requestMessageQueue)
         {
-            requestMessageStack.Push(new ResponeMessage(actionCode, data));
+            requestMessageQueue.Enqueue(new ResponeMessage(actionCode, data));
         }
     }
 
     public virtual void HandleResponeMessageList()
     {
-        lock (requestMessageStack)
+        lock (requestMessageQueue)
         {
             ActionCode actionCode;
             string data;
-            while (requestMessageStack.Count > 0)
+            while (requestMessageQueue.Count > 0)
             {
-                var message = requestMessageStack.Pop();
+                var message = requestMessageQueue.Dequeue();
                 actionCode = message.actionCode;
                 data = message.data;
 
