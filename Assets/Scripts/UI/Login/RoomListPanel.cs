@@ -6,20 +6,23 @@ using UnityEngine.UI;
 
 public class RoomListPanel : BasePanel
 {
-    private RectTransform battleInfo, roomList;
+    [SerializeField]
+    private GameObject roomItemPrefab;
+
+    private RectTransform roomListContent;
     private Button closeButton;
     private Text usernameText, totalCountText, winCountText;
-
 
     public override void OnInit()
     {
         base.OnInit();
         Transform root = transform;
-        battleInfo = root.Find(UINames.roomList_BattleInfoPath).GetComponent<RectTransform>();
-        roomList = root.Find(UINames.roomList_RoomListPath).GetComponent<RectTransform>();
-        usernameText= battleInfo.Find(UINames.roomList_UsernameTextPath).GetComponent<Text>();
+        RectTransform battleInfo = root.Find(UINames.roomList_BattleInfoPath).transform as RectTransform;
+        RectTransform roomList = root.Find(UINames.roomList_RoomListPath).transform as RectTransform;
+        usernameText = battleInfo.Find(UINames.roomList_UsernameTextPath).GetComponent<Text>();
         totalCountText = battleInfo.Find(UINames.roomList_TotalCountTextPath).GetComponent<Text>();
         winCountText = battleInfo.Find(UINames.roomList_WinCountTextPath).GetComponent<Text>();
+        roomListContent = roomList.Find(UINames.roomList_RooomContentPath).transform as RectTransform;
 
         closeButton = roomList.Find(UINames.closeButtonPath).GetComponent<Button>();
         closeButton.onClick.AddListener(OnClickClose);
@@ -33,6 +36,10 @@ public class RoomListPanel : BasePanel
     public override void OnEnter()
     {
         closeButton.interactable = true;
+        CreateRoomItems();
+        var pos = roomListContent.localPosition;
+        pos.y = 0;
+        roomListContent.localPosition = pos;
         base.OnEnter();
     }
 
@@ -58,10 +65,18 @@ public class RoomListPanel : BasePanel
         OnExitAnim();
     }
 
-    public void UpdateBattleInfo(string _username,string _totalCount,string _winCount)
+    public void UpdateBattleInfo(string _username, string _totalCount, string _winCount)
     {
         usernameText.text = _username;
         totalCountText.text = _totalCount;
         winCountText.text = _winCount;
+    }
+
+    public void CreateRoomItems()
+    {
+        for(int i =0;i<10;i++)
+        {
+            GameObject go = Instantiate(roomItemPrefab, roomListContent);
+        }
     }
 }

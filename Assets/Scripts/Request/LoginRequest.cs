@@ -26,6 +26,7 @@ public class LoginRequest : BaseRequest
             .OnLoginRespone(returnCode);
         if (returnCode == ReturnCode.Success)
         {
+            Debug.Log(data);
             GameFacade.Instance.UIManager.GetPanel<RoomListPanel>(UINames.roomListPanel)
                 .UpdateBattleInfo(result[1], result[2], result[3]);
             GameFacade.Instance.UIManager.ShowPanel(UINames.roomListPanel);
