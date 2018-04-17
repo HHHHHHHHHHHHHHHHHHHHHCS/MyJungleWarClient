@@ -5,21 +5,22 @@ using UnityEngine.UI;
 
 public class RoomItem : MonoBehaviour
 {
-    private Text usernameText,totalCountText,winCountText;
+    private Text usernameText, totalCountText, winCountText;
+    private Button joinButton;
 
     private void Awake()
     {
         Transform root = transform;
-        usernameText = root.Find(UINames.roomItem_UsernamePath).GetComponent<Text>();
-        totalCountText = root.Find(UINames.roomItem_UsernamePath).GetComponent<Text>();
-        winCountText = root.Find(UINames.roomItem_UsernamePath).GetComponent<Text>();
+        usernameText = root.Find(UINames.roomItem_UsernameTextPath).GetComponent<Text>();
+        totalCountText = root.Find(UINames.roomItem_UsernameTextPath).GetComponent<Text>();
+        winCountText = root.Find(UINames.roomItem_UsernameTextPath).GetComponent<Text>();
 
-        root.Find(UINames.roomItem_JoinButtonPath).GetComponent<Button>()
-            .onClick.AddListener(OnClickJoinButton);
+        joinButton = root.Find(UINames.roomItem_JoinButtonPath).GetComponent<Button>();
+        joinButton.onClick.AddListener(OnClickJoinButton);
     }
 
 
-    public void UpdateRoomItemInfo(string _usernameText,string _totalCountText,string _winCountText)
+    public void UpdateRoomItemInfo(string _usernameText, string _totalCountText, string _winCountText)
     {
         usernameText.text = _usernameText;
         totalCountText.text = _totalCountText;
@@ -28,6 +29,8 @@ public class RoomItem : MonoBehaviour
 
     private void OnClickJoinButton()
     {
-        Debug.Log("老子点击了");
+        joinButton.interactable = false;
+        GameFacade.Instance.UIManager.GetPanel<RoomListPanel>(UINames.roomListPanel)
+            .EnterRoomPanel();
     }
 }

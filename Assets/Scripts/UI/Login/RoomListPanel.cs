@@ -26,6 +26,8 @@ public class RoomListPanel : BasePanel
 
         closeButton = roomList.Find(UINames.closeButtonPath).GetComponent<Button>();
         closeButton.onClick.AddListener(OnClickClose);
+
+        CreateRoomItems();
     }
 
     public override void OnUpdate()
@@ -52,10 +54,21 @@ public class RoomListPanel : BasePanel
     public override void OnExitAnim()
     {
         transform.DOScale(0, 0.4f)
-            .OnComplete(() =>
-            {
-                GameFacade.Instance.UIManager.BackLastPanel();
+            .OnComplete(GameFacade.Instance.UIManager.BackLastPanel);
+    }
+
+    public override void OnPause()
+    {
+        transform.DOScale(0, 0.25f).OnComplete(()=> {
+                gameObject.SetActive(false);
             });
+    }
+
+    public override void OnResume()
+    {
+        ResumeDefaultState();
+        gameObject.SetActive(true);
+        transform.DOScale(nowScale, 0.25f);
     }
 
     private void OnClickClose()
@@ -78,5 +91,10 @@ public class RoomListPanel : BasePanel
         {
             GameObject go = Instantiate(roomItemPrefab, roomListContent);
         }
+    }
+
+    public void EnterRoomPanel()
+    {
+        GameFacade.Instance.UIManager.ShowPanel(UINames.roomPanel);
     }
 }

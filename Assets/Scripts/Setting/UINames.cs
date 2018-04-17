@@ -20,16 +20,27 @@
 
     public const string roomListPanel = "RoomListPanel";
     public const string roomList_BattleInfoPath = "BattleInfo";
-    public const string roomList_UsernameTextPath = "UserNameText";
-    public const string roomList_TotalCountTextPath = "TotalCountLabel/TotalCounText";
+    public const string roomList_UsernameTextPath = "UsernameText";
+    public const string roomList_TotalCountTextPath = "TotalCountLabel/TotalCountText";
     public const string roomList_WinCountTextPath = "WinCountLabel/WinCountText";
     public const string roomList_RoomListPath = "RoomList";
     public const string roomList_RooomContentPath = "ScrollRect/Viewport/Content";
 
-    public const string roomItem_UsernamePath = "UsernameText";
+    public const string roomItem_UsernameTextPath = "UsernameText";
     public const string roomItem_TotalCountTextPath = "TotalCountLabel/TotalCountText";
     public const string roomItem_WinCountTextPath = "WinCountLabel/WinCountText";
     public const string roomItem_JoinButtonPath = "JoinButton";
+
+    public const string roomPanel = "RoomPanel";
+    public const string roomPanel_PlayerHomeBgPath = "Player_HomeBg";
+    public const string roomPanel_PlayerAwayBgBgPath = "Player_AwayBg";
+    public const string roomPanel_PlayerNoOneBgPath = "Player_NoOneBg";
+    public const string roomPanel_UsernameTextPath = "UsernameText";
+    public const string roomPanel_TotalCountTextPath = "TotalCountLabel/TotalCountText";
+    public const string roomPanel_WinCountTextPath = "WinCountLabel/WinCountText";
+    public const string roomPanel_ReadyImagePath = "ReadyImage";
+    public const string roomPanel_ReadyButtonPath = "ReadyButton";
+    public const string roomPanel_ExitButtonPath = "ExitButton";
 
     public const string messagePanel = "MessagePanel";
 

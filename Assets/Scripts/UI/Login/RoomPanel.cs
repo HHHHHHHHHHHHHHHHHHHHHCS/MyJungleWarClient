@@ -1,0 +1,136 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using DG.Tweening;
+
+public class RoomPanel : BasePanel
+{
+    [SerializeField]
+    private Color unReadyColor;
+
+
+    private Text home_UsernameText, home_TotalCountText, home_WinCountText
+        , away_UsernameText, away_TotalCountText, away_WinCountText;
+    private Transform playerHomeBgTs, playerAwayBgTs, playerAwayNoOneBgTs;
+    private GameObject home_ReadyImage, away_ReadyImage;
+    private Button readyButton, exitButton;
+    private Color readyColor;
+    private float homeBgPos, awayNoOneBgPos, awayBgPos, readyButtonPos, exitButtonPos;
+
+    private bool isReady;
+
+    public override void OnInit()
+    {
+        Transform root = transform;
+        playerHomeBgTs = root.Find(UINames.roomPanel_PlayerHomeBgPath);
+        playerAwayBgTs = root.Find(UINames.roomPanel_PlayerAwayBgBgPath);
+        playerAwayNoOneBgTs = root.Find(UINames.roomPanel_PlayerNoOneBgPath);
+
+        home_UsernameText = playerHomeBgTs.Find(UINames.roomPanel_UsernameTextPath).GetComponent<Text>();
+        home_TotalCountText = playerHomeBgTs.Find(UINames.roomPanel_TotalCountTextPath).GetComponent<Text>();
+        home_WinCountText = playerHomeBgTs.Find(UINames.roomPanel_WinCountTextPath).GetComponent<Text>();
+        home_ReadyImage = playerHomeBgTs.Find(UINames.roomPanel_ReadyImagePath).gameObject;
+
+        away_UsernameText = playerAwayBgTs.Find(UINames.roomPanel_UsernameTextPath).GetComponent<Text>();
+        away_TotalCountText = playerAwayBgTs.Find(UINames.roomPanel_TotalCountTextPath).GetComponent<Text>();
+        away_WinCountText = playerAwayBgTs.Find(UINames.roomPanel_WinCountTextPath).GetComponent<Text>();
+        away_ReadyImage = playerAwayBgTs.Find(UINames.roomPanel_ReadyImagePath).gameObject;
+
+
+        readyButton = root.Find(UINames.roomPanel_ReadyButtonPath).GetComponent<Button>();
+        readyColor = readyButton.GetComponent<Image>().color;
+        readyButton.onClick.AddListener(OnClickReadyButton);
+
+        exitButton = root.Find(UINames.roomPanel_ExitButtonPath).GetComponent<Button>();
+        exitButton.onClick.AddListener(OnClickExitButton);
+
+        homeBgPos = playerHomeBgTs.localPosition.x;
+        awayBgPos = playerAwayBgTs.localPosition.x;
+        awayNoOneBgPos = playerAwayNoOneBgTs.localPosition.x;
+        readyButtonPos = readyButton.transform.localPosition.y;
+        exitButtonPos = exitButton.transform.localPosition.y;
+    }
+
+    public override void OnEnter()
+    {
+        base.OnEnter();
+        readyButton.interactable = true;
+        exitButton.interactable = true;
+    }
+
+    private void OnClickReadyButton()
+    {
+        PlayClickSound();
+        //todo:向服务器发起准备的请求  按钮的颜色切换
+
+    }
+
+    private void OnClickExitButton()
+    {
+        readyButton.interactable = false;
+        exitButton.interactable = false;
+        PlayClickSound();
+        OnExitAnim();
+    }
+
+    public override void OnEnterAnim()
+    {
+        DoEnterAnim(playerHomeBgTs, -1000, homeBgPos, true);
+        DoEnterAnim(playerAwayBgTs, 1000, awayBgPos, true);
+        DoEnterAnim(playerAwayNoOneBgTs, 1000, awayNoOneBgPos, true);
+        DoEnterAnim(readyButton.transform, -1000, readyButtonPos, false);
+        DoEnterAnim(exitButton.transform, -1000, exitButtonPos, false);
+    }
+
+    public override void OnExitAnim()
+    {
+        readyButton.interactable = false;
+        exitButton.interactable = false;
+        DoExitAnim(playerHomeBgTs, -1000, true);
+        DoExitAnim(playerAwayBgTs, 1000, true);
+        DoExitAnim(playerAwayNoOneBgTs, 1000, true);
+        DoExitAnim(readyButton.transform, -1000, false);
+        DoExitAnim(exitButton.transform, -1000, false)
+            .OnComplete(GameFacade.Instance.UIManager.BackLastPanel);
+    }
+
+    private Tweener DoEnterAnim(Transform mainBody, float startPos, float endPos, bool isX)
+    {
+        var vec3 = mainBody.localPosition;
+        if (isX)
+        {
+            vec3.x = startPos;
+        }
+        else
+        {
+            vec3.y = startPos;
+        }
+        mainBody.localPosition = vec3;
+        if (isX)
+        {
+            return mainBody.DOLocalMoveX(endPos, 0.4f);
+        }
+        else
+        {
+            return mainBody.DOLocalMoveY(endPos, 0.4f);
+        }
+
+    }
+
+    private Tweener DoExitAnim(Transform mainBody, float endPos, bool isX)
+    {
+        var vec3 = mainBody.localPosition;
+        mainBody.localPosition = vec3;
+        if (isX)
+        {
+            return mainBody.DOLocalMoveX(endPos, 0.25f);
+        }
+        else
+        {
+            return mainBody.DOLocalMoveY(endPos, 0.25f);
+        }
+
+    }
+
+}
