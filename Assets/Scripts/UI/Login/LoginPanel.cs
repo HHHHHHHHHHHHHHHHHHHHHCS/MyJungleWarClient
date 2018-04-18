@@ -5,6 +5,7 @@ using DG.Tweening;
 using UnityEngine.UI;
 using System.Text.RegularExpressions;
 using Common;
+using Common.Code;
 
 public class LoginPanel : BasePanel
 {
@@ -111,12 +112,12 @@ public class LoginPanel : BasePanel
         getMessage = true;
         if (code == ReturnCode.Success)
         {
-            GameFacade.Instance.UIManager.ShowMessageSync("登录成功！");
+            GameFacade.Instance.UIManager.ShowMessage("登录成功！");
 
         }
         else if (code == ReturnCode.Fail)
         {
-            GameFacade.Instance.UIManager.ShowMessageSync("用户名或密码错误！");
+            GameFacade.Instance.UIManager.ShowMessage("用户名或密码错误！");
         }
     }
 

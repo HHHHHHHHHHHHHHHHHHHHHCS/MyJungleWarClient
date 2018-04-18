@@ -1,4 +1,5 @@
 ﻿using Common;
+using Common.Code;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,10 +27,9 @@ public class LoginRequest : BaseRequest
             .OnLoginRespone(returnCode);
         if (returnCode == ReturnCode.Success)
         {
-            Debug.Log(data);
-            GameFacade.Instance.UIManager.GetPanel<RoomListPanel>(UINames.roomListPanel)
-                .UpdateBattleInfo(result[1], result[2], result[3]);
-            GameFacade.Instance.UIManager.ShowPanel(UINames.roomListPanel);
+            var roomListPanel = GameFacade.Instance.UIManager.GetPanel<RoomListPanel>(UINames.roomListPanel);
+            roomListPanel.UpdateBattleInfo(result[1], result[2], result[3]);
+            GameFacade.Instance.UIManager.ShowPanel(roomListPanel);
         }
     }
 }

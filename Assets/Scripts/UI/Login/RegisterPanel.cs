@@ -6,6 +6,7 @@ using DG.Tweening;
 using System.Text.RegularExpressions;
 using Common;
 using System;
+using Common.Code;
 
 public class RegisterPanel : BasePanel
 {
@@ -117,11 +118,11 @@ public class RegisterPanel : BasePanel
         if (code == ReturnCode.Success)
         {
             isSucceed = true;
-            GameFacade.Instance.UIManager.ShowMessageSync("注册成功！");
+            GameFacade.Instance.UIManager.ShowMessage("注册成功！");
         }
         else if (code == ReturnCode.Fail)
         {
-            GameFacade.Instance.UIManager.ShowMessageSync("注册失败，用户名重复！");
+            GameFacade.Instance.UIManager.ShowMessage("注册失败，用户名重复！");
         }
     }
 }

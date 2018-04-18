@@ -48,17 +48,17 @@ public class UIManager : BaseManager<UIManager>
         BasePanel panel = GetPanel<BasePanel>(panelName);
         if (panel)
         {
-            if (needLastHide && panelStack.Count > 0)
-            {
-                PausePanel(panelStack.Peek());
-            }
-            panelStack.Push(panel);
-            ShowPanel(panel);
+            ShowPanel(panel, needLastHide);
         }
     }
 
-    public void ShowPanel(BasePanel panel)
+    public void ShowPanel(BasePanel panel, bool needLastHide = true)
     {
+        if (needLastHide && panelStack.Count > 0)
+        {
+            PausePanel(panelStack.Peek());
+        }
+        panelStack.Push(panel);
         panel.OnEnter();
     }
 
@@ -95,18 +95,6 @@ public class UIManager : BaseManager<UIManager>
             {
                 ResumePanel(panelStack.Peek());
             }
-        }
-    }
-
-    public void ShowMessageSync(string data)
-    {
-        if (!messagePanel)
-        {
-            messagePanel = GetPanel<MessagePanel>(UINames.messagePanel);
-        }
-        if (messagePanel)
-        {
-            messagePanel.ShowMessage(data);
         }
     }
 

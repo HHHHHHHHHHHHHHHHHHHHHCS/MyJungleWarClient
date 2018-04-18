@@ -22,13 +22,13 @@ public class MessagePanel : BasePanel
     {
         base.OnInit();
         image = GetComponent<Image>();
-        text = GetComponentInChildren<Text>(true);
+        text = GetComponentInChildren<Text>();
         canvasGroup = GetComponent<CanvasGroup>();
-        text.gameObject.SetActive(false);
     }
 
     public void ShowMessage(string msg)
     {
+        gameObject.SetActive(true);
         if (tweener != null)
         {
             tweener.Kill();
@@ -39,7 +39,6 @@ public class MessagePanel : BasePanel
             StopCoroutine(coroutine);
         }
         canvasGroup.alpha = 1;
-        text.gameObject.SetActive(true);
         text.text = msg;
         OnEnter();
         coroutine = StartCoroutine(WaitHide());
@@ -49,5 +48,6 @@ public class MessagePanel : BasePanel
     {
         yield return waitTime;
         tweener = DOTween.To(() => canvasGroup.alpha, x => canvasGroup.alpha = x, 0, hideTime);
+        tweener.OnComplete(() => { gameObject.SetActive(false); });
     }
 }

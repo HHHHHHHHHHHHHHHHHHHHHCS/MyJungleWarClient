@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using Common;
+using Common.Code;
 
 public class Message
 {

@@ -3,19 +3,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
+using Common.Code;
 
 public class RoomListPanel : BasePanel
 {
     [SerializeField]
     private GameObject roomItemPrefab;
 
+    private CreateRoomRequest createRoomRequest;
     private RectTransform roomListContent;
-    private Button closeButton;
+    private Button closeButton, createRoomButton, refreshRoomList;
     private Text usernameText, totalCountText, winCountText;
 
     public override void OnInit()
     {
         base.OnInit();
+        createRoomRequest = GameFacade.Instance.GetRequest<CreateRoomRequest>(ActionCode.ClientRoom_Create);
         Transform root = transform;
         RectTransform battleInfo = root.Find(UINames.roomList_BattleInfoPath).transform as RectTransform;
         RectTransform roomList = root.Find(UINames.roomList_RoomListPath).transform as RectTransform;
@@ -27,8 +31,13 @@ public class RoomListPanel : BasePanel
         closeButton = roomList.Find(UINames.closeButtonPath).GetComponent<Button>();
         closeButton.onClick.AddListener(OnClickClose);
 
-        CreateRoomItems();
+        createRoomButton = roomList.Find(UINames.roomList_CreateRoomButtonPath).GetComponent<Button>();
+        createRoomButton.onClick.AddListener(OnClickCreateRoom);
+        refreshRoomList = roomList.Find(UINames.roomList_RefreshRoomListPath).GetComponent<Button>();
+        refreshRoomList.onClick.AddListener(OnClickUpdateRoomList);
     }
+
+
 
     public override void OnUpdate()
     {
@@ -37,8 +46,8 @@ public class RoomListPanel : BasePanel
 
     public override void OnEnter()
     {
-        closeButton.interactable = true;
-        CreateRoomItems();
+        //CreateRoomItems();
+        ResumeDefaultState();
         var pos = roomListContent.localPosition;
         pos.y = 0;
         roomListContent.localPosition = pos;
@@ -59,9 +68,10 @@ public class RoomListPanel : BasePanel
 
     public override void OnPause()
     {
-        transform.DOScale(0, 0.25f).OnComplete(()=> {
-                gameObject.SetActive(false);
-            });
+        transform.DOScale(0, 0.25f).OnComplete(() =>
+        {
+            gameObject.SetActive(false);
+        });
     }
 
     public override void OnResume()
@@ -71,11 +81,31 @@ public class RoomListPanel : BasePanel
         transform.DOScale(nowScale, 0.25f);
     }
 
+    public override void ResumeDefaultState()
+    {
+        closeButton.interactable = true;
+        createRoomButton.interactable = true;
+        refreshRoomList.interactable = true;
+    }
+
     private void OnClickClose()
     {
         closeButton.interactable = false;
         PlayClickSound();
         OnExitAnim();
+    }
+
+    private void OnClickUpdateRoomList()
+    {
+        refreshRoomList.interactable = false;
+    }
+
+    private void OnClickCreateRoom()
+    {
+        closeButton.interactable = false;
+        createRoomButton.interactable = false;
+        refreshRoomList.interactable = false;
+        createRoomRequest.SendRequest();
     }
 
     public void UpdateBattleInfo(string _username, string _totalCount, string _winCount)
@@ -85,9 +115,11 @@ public class RoomListPanel : BasePanel
         winCountText.text = _winCount;
     }
 
+
+
     public void CreateRoomItems()
     {
-        for(int i =0;i<10;i++)
+        for (int i = 0; i < 10; i++)
         {
             GameObject go = Instantiate(roomItemPrefab, roomListContent);
         }

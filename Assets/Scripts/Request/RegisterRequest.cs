@@ -1,4 +1,5 @@
 ﻿using Common;
+using Common.Code;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,6 +25,5 @@ public class RegisterRequest : BaseRequest
         ReturnCode returnCode = (ReturnCode)int.Parse(result[0]);
         GameFacade.Instance.UIManager.GetPanel<RegisterPanel>(UINames.registerPanel)
             .OnRegisterRespone(returnCode);
-
     }
 }

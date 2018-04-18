@@ -133,4 +133,18 @@ public class RoomPanel : BasePanel
 
     }
 
+
+    public void SetHomeInfo(string username, string winCount, string totalCount)
+    {
+        home_UsernameText.text = username;
+        home_TotalCountText.text = winCount;
+        home_WinCountText.text = totalCount;
+    }
+
+    public void SetAwayInfo(string username, string winCount, string totalCount)
+    {
+        away_UsernameText.text = username;
+        away_TotalCountText.text = winCount;
+        away_WinCountText.text = totalCount;
+    }
 }

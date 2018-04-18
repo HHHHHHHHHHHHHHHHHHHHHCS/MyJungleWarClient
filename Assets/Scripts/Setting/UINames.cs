@@ -25,6 +25,9 @@
     public const string roomList_WinCountTextPath = "WinCountLabel/WinCountText";
     public const string roomList_RoomListPath = "RoomList";
     public const string roomList_RooomContentPath = "ScrollRect/Viewport/Content";
+    public const string roomList_CreateRoomButtonPath = "CreateRoomButton";
+    public const string roomList_RefreshRoomListPath = "RefreshRoomListButton";
+
 
     public const string roomItem_UsernameTextPath = "UsernameText";
     public const string roomItem_TotalCountTextPath = "TotalCountLabel/TotalCountText";

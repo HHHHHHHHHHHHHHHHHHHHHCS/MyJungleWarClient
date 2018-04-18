@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Net.Sockets;
 using System;
 using Common;
+using Common.Code;
 
 public class ClientManager : BaseManager<ClientManager>
 {
