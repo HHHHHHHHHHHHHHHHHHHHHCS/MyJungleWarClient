@@ -5,21 +5,27 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using Common.Code;
+using Common.Model;
 
 public class RoomListPanel : BasePanel
 {
     [SerializeField]
-    private GameObject roomItemPrefab;
+    private RoomItem roomItemPrefab;
 
     private CreateRoomRequest createRoomRequest;
+    private ShowRoomListRequest showRoomListRequest;
     private RectTransform roomListContent;
     private Button closeButton, createRoomButton, refreshRoomList;
     private Text usernameText, totalCountText, winCountText;
+
+    private List<RoomItem> roomItemList;
 
     public override void OnInit()
     {
         base.OnInit();
         createRoomRequest = GameFacade.Instance.GetRequest<CreateRoomRequest>(ActionCode.ClientRoom_Create);
+        showRoomListRequest = GameFacade.Instance.GetRequest<ShowRoomListRequest>(ActionCode.ClientRoom_Show);
+        roomItemList = new List<RoomItem>();
         Transform root = transform;
         RectTransform battleInfo = root.Find(UINames.roomList_BattleInfoPath).transform as RectTransform;
         RectTransform roomList = root.Find(UINames.roomList_RoomListPath).transform as RectTransform;
@@ -46,11 +52,11 @@ public class RoomListPanel : BasePanel
 
     public override void OnEnter()
     {
-        //CreateRoomItems();
         ResumeDefaultState();
         var pos = roomListContent.localPosition;
         pos.y = 0;
         roomListContent.localPosition = pos;
+        OnClickUpdateRoomList();
         base.OnEnter();
     }
 
@@ -98,6 +104,7 @@ public class RoomListPanel : BasePanel
     private void OnClickUpdateRoomList()
     {
         refreshRoomList.interactable = false;
+        showRoomListRequest.SendRequest();
     }
 
     private void OnClickCreateRoom()
@@ -115,18 +122,43 @@ public class RoomListPanel : BasePanel
         winCountText.text = _winCount;
     }
 
-
-
-    public void CreateRoomItems()
+    public void UpdateRoomItemList(UserData[] roomItemArray)
     {
-        for (int i = 0; i < 10; i++)
+        refreshRoomList.interactable = true;
+        GameFacade.Instance.UIManager.ShowMessage("刷新成功！");
+        if (roomItemArray == null) return;
+        for (int i = 0; i < roomItemArray.Length; i++)
         {
-            GameObject go = Instantiate(roomItemPrefab, roomListContent);
+            if (i < roomItemList.Count)
+            {
+                roomItemList[i].UpdateRoomItemInfo(roomItemArray[i]);
+            }
+            else
+            {
+                RoomItem newItem = Instantiate(roomItemPrefab, roomListContent);
+                newItem.UpdateRoomItemInfo(roomItemArray[i]);
+                roomItemList.Add(newItem);
+            }
+        }
+
+        for (int i = roomItemArray.Length; i < roomItemList.Count; i++)
+        {
+            if (roomItemList.Count <= 20)
+            {
+                roomItemList[i].gameObject.SetActive(false);
+            }
+            else
+            {
+                Destroy(roomItemList[i].gameObject);
+            }
         }
     }
 
-    public void EnterRoomPanel()
+    public void EnterRoomPanel(UserData homeUserData, UserData awayUserData)
     {
-        GameFacade.Instance.UIManager.ShowPanel(UINames.roomPanel);
+        var UIManager = GameFacade.Instance.UIManager;
+        var roomPanel = UIManager.GetPanel<RoomPanel>(UINames.roomPanel);
+        roomPanel.SetUserDataInfo(homeUserData, awayUserData);
+        UIManager.ShowPanel(roomPanel);
     }
 }

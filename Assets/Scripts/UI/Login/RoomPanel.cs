@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using Common.Model;
 
 public class RoomPanel : BasePanel
 {
@@ -130,21 +131,35 @@ public class RoomPanel : BasePanel
         {
             return mainBody.DOLocalMoveY(endPos, 0.25f);
         }
-
     }
 
-
-    public void SetHomeInfo(string username, string winCount, string totalCount)
+    public void SetUserDataInfo(UserData homeUserData,UserData awayUserData)
     {
-        home_UsernameText.text = username;
-        home_TotalCountText.text = winCount;
-        home_WinCountText.text = totalCount;
+        SetHomeInfo(homeUserData);
+        SetAwayInfo(awayUserData);
     }
 
-    public void SetAwayInfo(string username, string winCount, string totalCount)
+    public void SetHomeInfo(UserData userData)
     {
-        away_UsernameText.text = username;
-        away_TotalCountText.text = winCount;
-        away_WinCountText.text = totalCount;
+        home_UsernameText.text = userData.Username;
+        home_TotalCountText.text = userData.TotalCount.ToString();
+        home_WinCountText.text = userData.WinCount.ToString();
+    }
+
+    public void SetAwayInfo(UserData userData)
+    {
+        if(userData !=null)
+        {
+            playerAwayNoOneBgTs.gameObject.SetActive(false);
+            playerAwayBgTs.gameObject.SetActive(true);
+            away_UsernameText.text = userData.Username;
+            away_TotalCountText.text = userData.TotalCount.ToString();
+            away_WinCountText.text = userData.WinCount.ToString();
+        }
+        else
+        {
+            playerAwayNoOneBgTs.gameObject.SetActive(true);
+            playerAwayBgTs.gameObject.SetActive(false);
+        }
     }
 }
