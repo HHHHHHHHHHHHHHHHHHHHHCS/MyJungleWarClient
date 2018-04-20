@@ -14,11 +14,6 @@ public class CreateRoomRequest : BaseRequest
         base.OnInit();
     }
 
-    public override void SendRequest()
-    {
-        base.SendRequest("");
-    }
-
     public override void OnResponse(string data)
     {
         string[] result = data.Split(',');

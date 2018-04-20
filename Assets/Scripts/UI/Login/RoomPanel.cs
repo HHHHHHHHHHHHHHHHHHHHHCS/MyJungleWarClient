@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using DG.Tweening;
 using Common.Model;
 using Common.Code;
+using System;
 
 public class RoomPanel : BasePanel
 {
@@ -12,19 +13,23 @@ public class RoomPanel : BasePanel
     private Color unReadyColor;
 
     private LeaveRoomRequest leaveRoomRequest;
+    private ReadyBattleRequest readyBattleRequest;
     private Text home_UsernameText, home_TotalCountText, home_WinCountText
         , away_UsernameText, away_TotalCountText, away_WinCountText;
     private Transform playerHomeBgTs, playerAwayBgTs, playerAwayNoOneBgTs;
     private GameObject home_ReadyImage, away_ReadyImage;
     private Button readyButton, exitButton;
+    private Image readyButtonImage;
     private Color readyColor;
     private float homeBgPos, awayNoOneBgPos, awayBgPos, readyButtonPos, exitButtonPos;
 
     private bool isReady;
+    private UserData homeUserData, awayUserData;
 
     public override void OnInit()
     {
         leaveRoomRequest = GameFacade.Instance.RequestManager.GetRequest<LeaveRoomRequest>(ActionCode.ClientRoom_Leavel);
+        readyBattleRequest = GameFacade.Instance.RequestManager.GetRequest<ReadyBattleRequest>(ActionCode.ClientRoom_Ready);
         Transform root = transform;
         playerHomeBgTs = root.Find(UINames.roomPanel_PlayerHomeBgPath);
         playerAwayBgTs = root.Find(UINames.roomPanel_PlayerAwayBgBgPath);
@@ -42,7 +47,8 @@ public class RoomPanel : BasePanel
 
 
         readyButton = root.Find(UINames.roomPanel_ReadyButtonPath).GetComponent<Button>();
-        readyColor = readyButton.GetComponent<Image>().color;
+        readyButtonImage = readyButton.GetComponent<Image>();
+        readyColor = readyButtonImage.color;
         readyButton.onClick.AddListener(OnClickReadyButton);
 
         exitButton = root.Find(UINames.roomPanel_ExitButtonPath).GetComponent<Button>();
@@ -60,6 +66,7 @@ public class RoomPanel : BasePanel
         base.OnEnter();
         readyButton.interactable = true;
         exitButton.interactable = true;
+        isReady = false;
         home_ReadyImage.SetActive(false);
         away_ReadyImage.SetActive(false);
     }
@@ -67,8 +74,9 @@ public class RoomPanel : BasePanel
     private void OnClickReadyButton()
     {
         PlayClickSound();
-        //todo:向服务器发起准备的请求  按钮的颜色切换
-
+        isReady = !isReady;
+        readyButton.GetComponent<Image>().color = isReady ? unReadyColor : readyColor;
+        readyBattleRequest.SendRequest(isReady);
     }
 
     private void OnClickExitButton()
@@ -120,7 +128,6 @@ public class RoomPanel : BasePanel
         {
             return mainBody.DOLocalMoveY(endPos, 0.4f);
         }
-
     }
 
     private Tweener DoExitAnim(Transform mainBody, float endPos, bool isX)
@@ -149,6 +156,7 @@ public class RoomPanel : BasePanel
 
     public void SetHomeInfo(UserData userData)
     {
+        homeUserData = userData;
         home_ReadyImage.SetActive(false);
         if (userData != null)
         {
@@ -160,6 +168,7 @@ public class RoomPanel : BasePanel
 
     public void SetAwayInfo(UserData userData)
     {
+        awayUserData = userData;
         away_ReadyImage.SetActive(false);
         if (userData != null)
         {
@@ -180,4 +189,25 @@ public class RoomPanel : BasePanel
     {
         OnExitAnim();
     }
+
+
+    public void UserReady(string[] readyUsernameArray)
+    {
+        //先全部隐藏最后显示
+        home_ReadyImage.SetActive(false);
+        away_ReadyImage.SetActive(false);
+
+        foreach (var item in readyUsernameArray)
+        {
+            if (homeUserData != null && homeUserData.Username == item)
+            {
+                home_ReadyImage.SetActive(true);
+            }
+            else if (awayUserData != null && awayUserData.Username == item)
+            {
+                away_ReadyImage.SetActive(true);
+            }
+        }
+    }
+
 }

@@ -12,11 +12,6 @@ public class LeaveRoomRequest : BaseRequest
         base.OnInit();
     }
 
-    public override void SendRequest()
-    {
-        base.SendRequest("");
-    }
-
     public override void OnResponse(string data)
     {
         ReturnCode returnCode = (ReturnCode)int.Parse(data);

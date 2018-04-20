@@ -14,14 +14,14 @@ public class BaseRequest : MonoBehaviour
         GameFacade.Instance.AddRequest(actionCode, this);
     }
 
-    protected virtual void SendRequest(string data)
+    public virtual void SendRequest(string data)
     {
         GameFacade.Instance.Send(requestCode, actionCode, data);
     }
 
     public virtual void SendRequest()
     {
-
+        GameFacade.Instance.Send(requestCode, actionCode, string.Empty);
     }
 
     public virtual void OnResponse(string data)

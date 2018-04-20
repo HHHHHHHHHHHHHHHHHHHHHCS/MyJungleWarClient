@@ -13,11 +13,6 @@ public class ShowRoomListRequest : BaseRequest
         base.OnInit();
     }
 
-    public override void SendRequest()
-    {
-        base.SendRequest("");
-    }
-
     public override void OnResponse(string data)
     {
         UserData[] roomItemArray = null;

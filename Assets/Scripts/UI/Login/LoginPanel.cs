@@ -29,11 +29,6 @@ public class LoginPanel : BasePanel
         registerButton.onClick.AddListener(OnRegisterClick);
     }
 
-    public override void OnEnter()
-    {
-        base.OnEnter();
-    }
-
     public override void ResumeDefaultState()
     {
         clsoeButton.interactable = true;

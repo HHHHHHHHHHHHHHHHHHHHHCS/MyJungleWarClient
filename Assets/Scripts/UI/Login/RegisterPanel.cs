@@ -41,7 +41,6 @@ public class RegisterPanel : BasePanel
 
     public override void OnUpdate()
     {
-        base.OnUpdate();
         if (getMessage)
         {
             if (isSucceed)
@@ -52,7 +51,6 @@ public class RegisterPanel : BasePanel
             else
             {
                 registerButton.interactable = true;
-
             }
             getMessage = false;
         }
@@ -60,7 +58,7 @@ public class RegisterPanel : BasePanel
 
     public override void OnEnterAnim()
     {
-        transform.localScale = Vector3.zero;
+        transform.localPosition = nowPos;
         transform.DOScale(nowScale, 0.4f);
     }
 
@@ -68,7 +66,7 @@ public class RegisterPanel : BasePanel
     {
         transform.DOScale(0, 0.4f);
         transform.DOLocalMove(new Vector3(1000, 0, 0), 0.4f)
-            .OnComplete(() => { GameFacade.Instance.UIManager.BackLastPanel(); });
+            .OnComplete( GameFacade.Instance.UIManager.BackLastPanel);
     }
 
     private void OnCloseClick()
@@ -122,6 +120,7 @@ public class RegisterPanel : BasePanel
         }
         else if (code == ReturnCode.Fail)
         {
+            isSucceed = false;
             GameFacade.Instance.UIManager.ShowMessage("注册失败，用户名重复！");
         }
     }

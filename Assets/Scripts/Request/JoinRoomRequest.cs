@@ -13,11 +13,6 @@ public class JoinRoomRequest : BaseRequest
         base.OnInit();
     }
 
-    public new void SendRequest(string username)
-    {
-        base.SendRequest(username);
-    }
-
     public override void OnResponse(string data)
     {
         string[] result = data.Split(',');
