@@ -14,25 +14,29 @@ public class ClientManager : BaseManager<ClientManager>
     private Socket clientSocket;
     private Message msg;
 
-    public override ClientManager OnInit()
+
+    public void FirstConnect()
     {
-        clientSocket = new Socket(AddressFamily.InterNetwork
-            , SocketType.Stream, ProtocolType.Tcp);
-        msg = new Message();
-        try
+        if (clientSocket == null)
         {
-            clientSocket.Connect(ip, port);
-            StartReceive();
+            clientSocket = new Socket(AddressFamily.InterNetwork
+                , SocketType.Stream, ProtocolType.Tcp);
+            msg = new Message();
+            try
+            {
+                clientSocket.Connect(ip, port);
+                StartReceive();
+            }
+            catch (Exception e)
+            {
+                Debug.Log("连接socket失败：" + e);
+            }
         }
-        catch (Exception e)
-        {
-            Debug.Log("连接socket失败：" + e);
-        }
-        return base.OnInit();
     }
 
     public void SendRequest(RequestCode requestCode, ActionCode actionCode, string data)
     {
+        FirstConnect();
         byte[] bytes = Message.PackData(requestCode, actionCode, data);
         clientSocket.Send(bytes);
     }
@@ -70,7 +74,10 @@ public class ClientManager : BaseManager<ClientManager>
         base.OnDesotry();
         try
         {
-            clientSocket.Close();
+            if (clientSocket != null && clientSocket.Connected)
+            {
+                clientSocket.Close();
+            }
         }
         catch (Exception e)
         {

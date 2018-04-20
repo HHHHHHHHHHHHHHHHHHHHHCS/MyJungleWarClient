@@ -60,6 +60,8 @@ public class RoomPanel : BasePanel
         base.OnEnter();
         readyButton.interactable = true;
         exitButton.interactable = true;
+        home_ReadyImage.SetActive(false);
+        away_ReadyImage.SetActive(false);
     }
 
     private void OnClickReadyButton()
@@ -135,22 +137,31 @@ public class RoomPanel : BasePanel
         }
     }
 
-    public void SetUserDataInfo(UserData homeUserData,UserData awayUserData)
+    public void SetUserDataInfo(UserData homeUserData, UserData awayUserData)
     {
         SetHomeInfo(homeUserData);
         SetAwayInfo(awayUserData);
+        if (homeUserData == null && awayUserData == null)
+        {
+            LeaveRoom();
+        }
     }
 
     public void SetHomeInfo(UserData userData)
     {
-        home_UsernameText.text = userData.Username;
-        home_TotalCountText.text = userData.TotalCount.ToString();
-        home_WinCountText.text = userData.WinCount.ToString();
+        home_ReadyImage.SetActive(false);
+        if (userData != null)
+        {
+            home_UsernameText.text = userData.Username;
+            home_TotalCountText.text = userData.TotalCount.ToString();
+            home_WinCountText.text = userData.WinCount.ToString();
+        }
     }
 
     public void SetAwayInfo(UserData userData)
     {
-        if(userData !=null)
+        away_ReadyImage.SetActive(false);
+        if (userData != null)
         {
             playerAwayNoOneBgTs.gameObject.SetActive(false);
             playerAwayBgTs.gameObject.SetActive(true);
