@@ -50,8 +50,10 @@ public class ClientManager : BaseManager<ClientManager>
     {
         try
         {
-            if (clientSocket == null || !clientSocket.Connected)
+            if (clientSocket == null || !clientSocket.Connected
+                || !ar.IsCompleted)
             {
+                clientSocket.Close();
                 return;
             }
             int count = clientSocket.EndReceive(ar);

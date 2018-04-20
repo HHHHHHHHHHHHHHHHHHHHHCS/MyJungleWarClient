@@ -20,6 +20,9 @@ public class RoomListPanel : BasePanel
 
     private List<RoomItem> roomItemList;
 
+    private float nextTime;
+    private const float nextStepTime = 1f;
+
     public override void OnInit()
     {
         base.OnInit();
@@ -43,11 +46,12 @@ public class RoomListPanel : BasePanel
         refreshRoomList.onClick.AddListener(OnClickUpdateRoomList);
     }
 
-
-
     public override void OnUpdate()
     {
-        base.OnUpdate();
+        if (gameObject.activeSelf && Time.realtimeSinceStartup >= nextTime)
+        {
+            OnClickUpdateRoomList();
+        }
     }
 
     public override void OnEnter()
@@ -105,6 +109,7 @@ public class RoomListPanel : BasePanel
     private void OnClickUpdateRoomList()
     {
         refreshRoomList.interactable = false;
+        nextTime = Time.realtimeSinceStartup + nextStepTime;
         showRoomListRequest.SendRequest();
     }
 
