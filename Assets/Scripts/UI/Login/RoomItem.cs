@@ -29,6 +29,7 @@ public class RoomItem : MonoBehaviour
         usernameText.text = userData.Username;
         totalCountText.text = userData.TotalCount.ToString();
         winCountText.text = userData.WinCount.ToString();
+        joinButton.interactable = true;
         gameObject.SetActive(true);
     }
 

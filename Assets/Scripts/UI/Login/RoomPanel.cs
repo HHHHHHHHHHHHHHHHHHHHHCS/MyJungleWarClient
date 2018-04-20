@@ -4,13 +4,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using Common.Model;
+using Common.Code;
 
 public class RoomPanel : BasePanel
 {
     [SerializeField]
     private Color unReadyColor;
 
-
+    private LeaveRoomRequest leaveRoomRequest;
     private Text home_UsernameText, home_TotalCountText, home_WinCountText
         , away_UsernameText, away_TotalCountText, away_WinCountText;
     private Transform playerHomeBgTs, playerAwayBgTs, playerAwayNoOneBgTs;
@@ -23,6 +24,7 @@ public class RoomPanel : BasePanel
 
     public override void OnInit()
     {
+        leaveRoomRequest = GameFacade.Instance.RequestManager.GetRequest<LeaveRoomRequest>(ActionCode.ClientRoom_Leavel);
         Transform root = transform;
         playerHomeBgTs = root.Find(UINames.roomPanel_PlayerHomeBgPath);
         playerAwayBgTs = root.Find(UINames.roomPanel_PlayerAwayBgBgPath);
@@ -72,7 +74,7 @@ public class RoomPanel : BasePanel
         readyButton.interactable = false;
         exitButton.interactable = false;
         PlayClickSound();
-        OnExitAnim();
+        leaveRoomRequest.SendRequest();
     }
 
     public override void OnEnterAnim()
@@ -161,5 +163,10 @@ public class RoomPanel : BasePanel
             playerAwayNoOneBgTs.gameObject.SetActive(true);
             playerAwayBgTs.gameObject.SetActive(false);
         }
+    }
+
+    public void LeaveRoom()
+    {
+        OnExitAnim();
     }
 }

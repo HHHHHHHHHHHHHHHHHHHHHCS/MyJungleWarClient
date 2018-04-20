@@ -83,6 +83,7 @@ public class RoomListPanel : BasePanel
     public override void OnResume()
     {
         ResumeDefaultState();
+        OnClickUpdateRoomList();
         gameObject.SetActive(true);
         transform.DOScale(nowScale, 0.25f);
     }
@@ -126,22 +127,24 @@ public class RoomListPanel : BasePanel
     {
         refreshRoomList.interactable = true;
         GameFacade.Instance.UIManager.ShowMessage("刷新成功！");
-        if (roomItemArray == null) return;
-        for (int i = 0; i < roomItemArray.Length; i++)
+        if (roomItemArray != null)
         {
-            if (i < roomItemList.Count)
+            for (int i = 0; i < roomItemArray.Length; i++)
             {
-                roomItemList[i].UpdateRoomItemInfo(roomItemArray[i]);
-            }
-            else
-            {
-                RoomItem newItem = Instantiate(roomItemPrefab, roomListContent);
-                newItem.UpdateRoomItemInfo(roomItemArray[i]);
-                roomItemList.Add(newItem);
+                if (i < roomItemList.Count)
+                {
+                    roomItemList[i].UpdateRoomItemInfo(roomItemArray[i]);
+                }
+                else
+                {
+                    RoomItem newItem = Instantiate(roomItemPrefab, roomListContent);
+                    newItem.UpdateRoomItemInfo(roomItemArray[i]);
+                    roomItemList.Add(newItem);
+                }
             }
         }
 
-        for (int i = roomItemArray.Length; i < roomItemList.Count; i++)
+        for (int i = roomItemArray == null ? 0 : roomItemArray.Length; i < roomItemList.Count; i++)
         {
             if (roomItemList.Count <= 20)
             {

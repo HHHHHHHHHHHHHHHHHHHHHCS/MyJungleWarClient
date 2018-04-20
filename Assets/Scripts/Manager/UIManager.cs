@@ -103,6 +103,7 @@ public class UIManager : BaseManager<UIManager>
         if (!messagePanel)
         {
             messagePanel = GetPanel<MessagePanel>(UINames.messagePanel);
+            messagePanel.transform.SetAsLastSibling();
         }
         if (messagePanel)
         {
