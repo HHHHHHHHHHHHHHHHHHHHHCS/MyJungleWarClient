@@ -36,7 +36,6 @@ public class RoomItem : MonoBehaviour
     private void OnClickJoinButton()
     {
         joinButton.interactable = false;
-        GameFacade.Instance.RequestManager.GetRequest<JoinRoomRequest>(ActionCode.ClientRoom_Join)
-            .SendRequest(homeRoomUsername);
+        GameFacade.Instance.SendRequest(ActionCode.ClientRoom_Join, homeRoomUsername);
     }
 }

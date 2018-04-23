@@ -10,16 +10,14 @@ using Common.Code;
 
 public class RegisterPanel : BasePanel
 {
-    private RegisterRequest registerRequest;
     private InputField usernameIF, passwordIF, repasswordIf;
     private Button closeButton, registerButton;
-    private bool getMessage,isSucceed;
+    private bool getMessage, isSucceed;
 
 
     public override void OnInit()
     {
         base.OnInit();
-        registerRequest = GameFacade.Instance.GetRequest<RegisterRequest>(ActionCode.Register);
         Transform root = transform;
         usernameIF = root.Find(UINames.register_usernameTextPath).GetComponent<InputField>();
         passwordIF = root.Find(UINames.register_passwordTextPath).GetComponent<InputField>();
@@ -34,9 +32,9 @@ public class RegisterPanel : BasePanel
     {
         closeButton.interactable = true;
         registerButton.interactable = true;
-        usernameIF.text = string.Empty;
-        passwordIF.text = string.Empty;
-        repasswordIf.text = string.Empty;
+        usernameIF.text = "";
+        passwordIF.text = "";
+        repasswordIf.text = "";
     }
 
     public override void OnUpdate()
@@ -66,7 +64,7 @@ public class RegisterPanel : BasePanel
     {
         transform.DOScale(0, 0.4f);
         transform.DOLocalMove(new Vector3(1000, 0, 0), 0.4f)
-            .OnComplete( GameFacade.Instance.UIManager.BackLastPanel);
+            .OnComplete(GameFacade.Instance.UIManager.BackLastPanel);
     }
 
     private void OnCloseClick()
@@ -80,7 +78,7 @@ public class RegisterPanel : BasePanel
     {
         registerButton.interactable = false;
         PlayClickSound();
-        string msg = string.Empty;
+        string msg = "";
         if (string.IsNullOrEmpty(usernameIF.text))
         {
             msg += "用户名不能为空";
@@ -89,7 +87,7 @@ public class RegisterPanel : BasePanel
         {
             msg += "密码不能为空";
         }
-        else if (passwordIF.text!=repasswordIf.text)
+        else if (passwordIF.text != repasswordIf.text)
         {
             msg += "两次密码不一样";
         }
@@ -105,7 +103,8 @@ public class RegisterPanel : BasePanel
         }
         else
         {
-            registerRequest.SendRequest(usernameIF.text, passwordIF.text);
+            var data = string.Format("{0},{1}", usernameIF.text, passwordIF.text);
+            GameFacade.Instance.SendRequest(ActionCode.Register, data);
         }
     }
 

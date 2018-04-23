@@ -34,7 +34,7 @@ public class ClientManager : BaseManager<ClientManager>
         }
     }
 
-    public void SendRequest(RequestCode requestCode, ActionCode actionCode, string data)
+    public void SendRequest(RequestCode requestCode, ActionCode actionCode, string data = "")
     {
         FirstConnect();
         byte[] bytes = Message.PackData(requestCode, actionCode, data);

@@ -12,8 +12,6 @@ public class RoomListPanel : BasePanel
     [SerializeField]
     private RoomItem roomItemPrefab;
 
-    private CreateRoomRequest createRoomRequest;
-    private ShowRoomListRequest showRoomListRequest;
     private RectTransform roomListContent;
     private Button closeButton, createRoomButton, refreshRoomList;
     private Text usernameText, totalCountText, winCountText;
@@ -26,8 +24,6 @@ public class RoomListPanel : BasePanel
     public override void OnInit()
     {
         base.OnInit();
-        createRoomRequest = GameFacade.Instance.GetRequest<CreateRoomRequest>(ActionCode.ClientRoom_Create);
-        showRoomListRequest = GameFacade.Instance.GetRequest<ShowRoomListRequest>(ActionCode.ClientRoom_Show);
         roomItemList = new List<RoomItem>();
         Transform root = transform;
         RectTransform battleInfo = root.Find(UINames.roomList_BattleInfoPath).transform as RectTransform;
@@ -110,7 +106,7 @@ public class RoomListPanel : BasePanel
     {
         refreshRoomList.interactable = false;
         nextTime = Time.realtimeSinceStartup + nextStepTime;
-        showRoomListRequest.SendRequest();
+        GameFacade.Instance.SendRequest(ActionCode.ClientRoom_Show);
     }
 
     private void OnClickCreateRoom()
@@ -118,7 +114,7 @@ public class RoomListPanel : BasePanel
         closeButton.interactable = false;
         createRoomButton.interactable = false;
         refreshRoomList.interactable = false;
-        createRoomRequest.SendRequest();
+        GameFacade.Instance.SendRequest(ActionCode.ClientRoom_Create);
     }
 
     public void UpdateBattleInfo(string _username, string _totalCount, string _winCount)

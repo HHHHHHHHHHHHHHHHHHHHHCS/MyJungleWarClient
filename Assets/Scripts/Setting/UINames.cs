@@ -42,6 +42,7 @@
     public const string roomPanel_TotalCountTextPath = "TotalCountLabel/TotalCountText";
     public const string roomPanel_WinCountTextPath = "WinCountLabel/WinCountText";
     public const string roomPanel_ReadyImagePath = "ReadyImage";
+    public const string roomPanel_ReadyTextPath = "ReadyText";
     public const string roomPanel_ReadyButtonPath = "ReadyButton";
     public const string roomPanel_ExitButtonPath = "ExitButton";
 

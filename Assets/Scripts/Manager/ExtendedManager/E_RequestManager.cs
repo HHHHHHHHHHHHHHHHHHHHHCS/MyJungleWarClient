@@ -7,13 +7,13 @@ using UnityEngine;
 public static class E_RequestManager
 {
     public static void AddRequest(this GameFacade facade
-        , ActionCode actionCode, BaseRequest baseRequest)
+        , ActionCode actionCode, RequestActionBase baseRequest)
     {
         facade.RequestManager.AddRequest(actionCode, baseRequest);
     }
 
     public static T GetRequest<T>(this GameFacade facade
-        ,ActionCode actionCode) where T : BaseRequest
+        ,ActionCode actionCode) where T : RequestActionBase
     {
         return facade.RequestManager.GetRequest<T>(actionCode);
     }

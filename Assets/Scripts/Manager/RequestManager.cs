@@ -19,8 +19,8 @@ public class RequestManager : BaseManager<RequestManager>
     }
 
 
-    private Dictionary<ActionCode, BaseRequest> requestDic
-        = new Dictionary<ActionCode, BaseRequest>();
+    private Dictionary<ActionCode, RequestActionBase> requestDic
+        = new Dictionary<ActionCode, RequestActionBase>();
     private Queue<ResponeMessage> requestMessageQueue
          = new Queue<ResponeMessage>();
 
@@ -39,7 +39,7 @@ public class RequestManager : BaseManager<RequestManager>
         HandleResponeMessageList();
     }
 
-    public void AddRequest(ActionCode actionCode, BaseRequest baseRequest)
+    public void AddRequest(ActionCode actionCode, RequestActionBase baseRequest)
     {
         if (!requestDic.ContainsKey(actionCode))
         {
@@ -47,9 +47,15 @@ public class RequestManager : BaseManager<RequestManager>
         }
     }
 
-    public T GetRequest<T>(ActionCode actionCode) where T : BaseRequest
+
+    public RequestActionBase GetRequest(ActionCode actionCode)
     {
-        BaseRequest baseRequest = null;
+        return GetRequest<RequestActionBase>(actionCode);
+    }
+
+    public T GetRequest<T>(ActionCode actionCode) where T : RequestActionBase
+    {
+        RequestActionBase baseRequest = null;
         requestDic.TryGetValue(actionCode, out baseRequest);
         return (T)baseRequest;
     }
@@ -59,6 +65,15 @@ public class RequestManager : BaseManager<RequestManager>
         if (requestDic.ContainsKey(actionCode))
         {
             requestDic.Remove(actionCode);
+        }
+    }
+
+    public void SendRequest(ActionCode actionCode, string data = "")
+    {
+        var code = GetRequest(actionCode);
+        if(code!=null)
+        {
+            code.SendRequest(data);
         }
     }
 
@@ -82,9 +97,9 @@ public class RequestManager : BaseManager<RequestManager>
                 actionCode = message.actionCode;
                 data = message.data;
 
-                BaseRequest baseRequest;
+                RequestActionBase baseRequest;
                 requestDic.TryGetValue(actionCode, out baseRequest);
-                if (baseRequest)
+                if (baseRequest != null)
                 {
                     baseRequest.OnResponse(data);
                 }

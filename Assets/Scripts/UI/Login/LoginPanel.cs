@@ -9,7 +9,6 @@ using Common.Code;
 
 public class LoginPanel : BasePanel
 {
-    private LoginRequest loginRequest;
     private InputField usernameIF, passwordIF;
     private Button clsoeButton, loginButton, registerButton;
     private bool getMessage = false;
@@ -17,7 +16,6 @@ public class LoginPanel : BasePanel
     public override void OnInit()
     {
         base.OnInit();
-        loginRequest = GameFacade.Instance.GetRequest<LoginRequest>(ActionCode.Login);
         Transform root = transform;
         usernameIF = root.Find(UINames.login_usernameTextPath).GetComponent<InputField>();
         passwordIF = root.Find(UINames.login_passwordTextPath).GetComponent<InputField>();
@@ -34,8 +32,8 @@ public class LoginPanel : BasePanel
         clsoeButton.interactable = true;
         loginButton.interactable = true;
         registerButton.interactable = true;
-        usernameIF.text = string.Empty;
-        passwordIF.text = string.Empty;
+        usernameIF.text = "";
+        passwordIF.text = "";
     }
 
     public override void OnUpdate()
@@ -76,7 +74,7 @@ public class LoginPanel : BasePanel
         clsoeButton.interactable = false;
         loginButton.interactable = false;
         PlayClickSound();
-        string msg = string.Empty;
+        string msg = "";
         if (string.IsNullOrEmpty(usernameIF.text))
         {
             msg += "用户名不能为空";
@@ -98,7 +96,8 @@ public class LoginPanel : BasePanel
         }
         else
         {
-            loginRequest.SendRequest(usernameIF.text, passwordIF.text);
+            var data=string.Format("{0},{1}", usernameIF.text, passwordIF.text);
+            GameFacade.Instance.SendRequest(ActionCode.Login, data);
         }
     }
 

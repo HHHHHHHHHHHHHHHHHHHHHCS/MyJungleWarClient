@@ -1,37 +1,30 @@
 ﻿using Common;
 using Common.Code;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BaseRequest : MonoBehaviour
+public abstract class BaseRequest : MonoBehaviour
 {
-    protected RequestCode requestCode = RequestCode.None;
-    protected ActionCode actionCode = ActionCode.None;
+    protected RequestCode requestCode;
+    protected HashSet<RequestActionBase> requestActionSet;
 
     public virtual void OnInit()
     {
-        GameFacade.Instance.AddRequest(actionCode, this);
+        requestActionSet = new HashSet<RequestActionBase>();
     }
 
-    public virtual void SendRequest(string data)
+    public RequestActionBase CreateBase(ActionCode actionCode,Action<string> callBack)
     {
-        GameFacade.Instance.Send(requestCode, actionCode, data);
+        return new RequestActionBase(requestCode, actionCode, callBack);
     }
-
-    public virtual void SendRequest()
-    {
-        GameFacade.Instance.Send(requestCode, actionCode, string.Empty);
-    }
-
-    public virtual void OnResponse(string data)
-    {
-
-    }
-
 
     protected virtual void OnDestroy()
     {
-        GameFacade.Instance.RemoveRequest(actionCode);
+        foreach(var item in requestActionSet)
+        {
+            GameFacade.Instance.RemoveRequest(item.ActionCode);
+        }
     }
 }

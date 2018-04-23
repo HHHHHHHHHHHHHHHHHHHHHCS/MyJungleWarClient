@@ -12,10 +12,10 @@ public class RoomPanel : BasePanel
     [SerializeField]
     private Color unReadyColor;
 
-    private LeaveRoomRequest leaveRoomRequest;
-    private ReadyBattleRequest readyBattleRequest;
     private Text home_UsernameText, home_TotalCountText, home_WinCountText
         , away_UsernameText, away_TotalCountText, away_WinCountText;
+    private Text readyText;
+    private Animation readyTextAnim;
     private Transform playerHomeBgTs, playerAwayBgTs, playerAwayNoOneBgTs;
     private GameObject home_ReadyImage, away_ReadyImage;
     private Button readyButton, exitButton;
@@ -23,13 +23,12 @@ public class RoomPanel : BasePanel
     private Color readyColor;
     private float homeBgPos, awayNoOneBgPos, awayBgPos, readyButtonPos, exitButtonPos;
 
+    private Coroutine coroutine;
     private bool isReady;
     private UserData homeUserData, awayUserData;
 
     public override void OnInit()
     {
-        leaveRoomRequest = GameFacade.Instance.RequestManager.GetRequest<LeaveRoomRequest>(ActionCode.ClientRoom_Leavel);
-        readyBattleRequest = GameFacade.Instance.RequestManager.GetRequest<ReadyBattleRequest>(ActionCode.ClientRoom_Ready);
         Transform root = transform;
         playerHomeBgTs = root.Find(UINames.roomPanel_PlayerHomeBgPath);
         playerAwayBgTs = root.Find(UINames.roomPanel_PlayerAwayBgBgPath);
@@ -45,6 +44,8 @@ public class RoomPanel : BasePanel
         away_WinCountText = playerAwayBgTs.Find(UINames.roomPanel_WinCountTextPath).GetComponent<Text>();
         away_ReadyImage = playerAwayBgTs.Find(UINames.roomPanel_ReadyImagePath).gameObject;
 
+        readyText = root.Find(UINames.roomPanel_ReadyTextPath).GetComponent<Text>();
+        readyTextAnim = readyText.GetComponent<Animation>();
 
         readyButton = root.Find(UINames.roomPanel_ReadyButtonPath).GetComponent<Button>();
         readyButtonImage = readyButton.GetComponent<Image>();
@@ -76,7 +77,8 @@ public class RoomPanel : BasePanel
         PlayClickSound();
         isReady = !isReady;
         readyButton.GetComponent<Image>().color = isReady ? unReadyColor : readyColor;
-        readyBattleRequest.SendRequest(isReady);
+        var readyStr = ((int)(isReady ? ReturnCode.True : ReturnCode.False)).ToString();
+        GameFacade.Instance.SendRequest(ActionCode.ClientRoom_Ready, readyStr);
     }
 
     private void OnClickExitButton()
@@ -84,7 +86,7 @@ public class RoomPanel : BasePanel
         readyButton.interactable = false;
         exitButton.interactable = false;
         PlayClickSound();
-        leaveRoomRequest.SendRequest();
+        GameFacade.Instance.SendRequest(ActionCode.ClientRoom_Leavel);
     }
 
     public override void OnEnterAnim()
@@ -210,4 +212,33 @@ public class RoomPanel : BasePanel
         }
     }
 
+
+    public void ShowReadyTextAnim()
+    {
+        CancelShowTextAnim();
+        coroutine = StartCoroutine(UpdateReadyText());
+    }
+
+    private IEnumerator UpdateReadyText()
+    {
+        readyText.gameObject.SetActive(true);
+        readyTextAnim.Play();
+        for (int i = 5; i > 0; i--)
+        {
+            readyText.text = i.ToString();
+            yield return new WaitForSecondsRealtime(1f);
+        }
+        readyTextAnim.Stop();
+        readyText.gameObject.SetActive(false);
+    }
+
+    public void CancelShowTextAnim()
+    {
+        if (coroutine != null)
+        {
+            StopCoroutine(coroutine);
+            readyTextAnim.Stop();
+            readyText.gameObject.SetActive(false);
+        }
+    }
 }

@@ -6,9 +6,15 @@ using UnityEngine;
 
 public static class E_ClientManager
 {
-    public static void Send(this GameFacade facade, RequestCode requestCode
-        , ActionCode actionCode, string data)
+    public static void SendRequest(this GameFacade facade
+        , ActionCode actionCode, string data = "")
     {
-        facade.ClientManager.SendRequest(requestCode,actionCode, data);
+        facade.RequestManager.SendRequest(actionCode, data);
+    }
+
+    public static void SendRequest(this GameFacade facade, RequestCode requestCode
+        , ActionCode actionCode, string data = "")
+    {
+        facade.ClientManager.SendRequest(requestCode, actionCode, data);
     }
 }
