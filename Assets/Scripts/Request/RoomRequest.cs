@@ -15,16 +15,16 @@ public class RoomRequest : BaseRequest
         requestActionSet.Add(CreateBase(ActionCode.ClientRoom_Join, OnResponse_Join));
         requestActionSet.Add(CreateBase(ActionCode.ClientRoom_Come, OnResponse_Come));
         requestActionSet.Add(CreateBase(ActionCode.ClientRoom_Ready, OnResponse_Ready));
-        //requestActionSet.Add(CreateBase(ActionCode.ClientRoom_AllReady, Register_OnResponse));
-        //requestActionSet.Add(CreateBase(ActionCode.ClientRoom_CancelReady, Login_OnResponse));
-        //requestActionSet.Add(CreateBase(ActionCode.ClientRoom_StartGame, Register_OnResponse));
+        requestActionSet.Add(CreateBase(ActionCode.ClientRoom_AllReady, OnResponse_AllReady));
+        requestActionSet.Add(CreateBase(ActionCode.ClientRoom_CancelReady, OnResponse_CancelReady));
+        requestActionSet.Add(CreateBase(ActionCode.ClientRoom_StartGame, OnResponse_StartGame));
         requestActionSet.Add(CreateBase(ActionCode.ClientRoom_Leavel, OnResponse_Leave));
         requestActionSet.Add(CreateBase(ActionCode.ClientRoom_Close, OnResponse_Close));
         requestActionSet.Add(CreateBase(ActionCode.ClientRoom_Quit, OnResponse_Quit));
     }
 
 
-    public void OnResponse_ShowRoomList(string data)
+    private void OnResponse_ShowRoomList(string data)
     {
         UserData[] roomItemArray = null;
         if (data.Length > 0)
@@ -43,7 +43,7 @@ public class RoomRequest : BaseRequest
             .UpdateRoomItemList(roomItemArray);
     }
 
-    public void OnResponse_CreateRoom(string data)
+    private void OnResponse_CreateRoom(string data)
     {
         string[] result = data.Split(',');
         ReturnCode returnCode = (ReturnCode)int.Parse(result[0]);
@@ -57,7 +57,7 @@ public class RoomRequest : BaseRequest
         }
     }
 
-    public void OnResponse_Join(string data)
+    private void OnResponse_Join(string data)
     {
         string[] result = data.Split(',');
         ReturnCode returnCode = (ReturnCode)int.Parse(result[0]);
@@ -75,23 +75,39 @@ public class RoomRequest : BaseRequest
         }
     }
 
-
-    public void OnResponse_Come(string data)
+    private void OnResponse_Come(string data)
     {
         string[] result = data.Split(',');
         UserData awayUserData = new UserData(result[0], int.Parse(result[1]), int.Parse(result[2]));
         GameFacade.Instance.UIManager.GetPanel<RoomPanel>(UINames.roomPanel)
             .SetAwayInfo(awayUserData);
     }
-    public void OnResponse_Ready(string data)
+
+    private void OnResponse_Ready(string data)
     {
         string[] readyUsernameArray = data.Split(',');
         var roomPanel = GameFacade.Instance.UIManager.GetPanel<RoomPanel>(UINames.roomPanel);
         roomPanel.UserReady(readyUsernameArray);
     }
 
+    private void OnResponse_AllReady(string data)
+    {
+        GameFacade.Instance.UIManager.GetPanel<RoomPanel>(UINames.roomPanel)
+            .ShowReadyTextAnim();
+    }
 
-    public void OnResponse_Leave(string data)
+    private void OnResponse_CancelReady(string data)
+    {
+        GameFacade.Instance.UIManager.GetPanel<RoomPanel>(UINames.roomPanel)
+            .CancelShowTextAnim();
+    }
+
+    private void OnResponse_StartGame(string data)
+    {
+        Debug.Log(1);
+    }
+
+    private void OnResponse_Leave(string data)
     {
         ReturnCode returnCode = (ReturnCode)int.Parse(data);
         if (returnCode == ReturnCode.Success)
@@ -102,7 +118,7 @@ public class RoomRequest : BaseRequest
         }
     }
 
-    public void OnResponse_Close(string data)
+    private void OnResponse_Close(string data)
     {
         ReturnCode returnCode = (ReturnCode)int.Parse(data);
         if (returnCode == ReturnCode.Success)
@@ -113,7 +129,7 @@ public class RoomRequest : BaseRequest
         }
     }
 
-    public void OnResponse_Quit(string data)
+    private void OnResponse_Quit(string data)
     {
         ReturnCode returnCode = (ReturnCode)int.Parse(data);
         if (returnCode == ReturnCode.Success)
