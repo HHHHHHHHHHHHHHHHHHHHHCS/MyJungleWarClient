@@ -1,4 +1,5 @@
 ﻿using Common.Model;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,8 @@ public class GameFacade : MonoBehaviour
 {
     public static GameFacade Instance { get; private set; }
 
+    public event Action OnUpdateEvent;
+
     public RequestManager RequestManager { get; private set; }
     public PlayerManager PlayerManager { get; private set; }
     public CameraManager CameraManager { get; private set; }
@@ -14,36 +17,61 @@ public class GameFacade : MonoBehaviour
     public AudioManager AudioManager { get; private set; }
     public ClientManager ClientManager { get; private set; }
 
-    public void OnIntGameFacade()
+    private void OnIntGameFacade(NowScenes nowScene)
     {
-        RequestManager = new RequestManager();
+        if (ClientManager == null)
+        {
+            ClientManager = new ClientManager().OnInit();
+        }
+        switch (nowScene)
+        {
+            case NowScenes.LoadScene:
+                break;
+            case NowScenes.LoginScene:
+                OnInitLoginSceneGameFacade();
+                break;
+            case NowScenes.GameScene:
+                OnInitGameSceneGameFacade();
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void OnInitLoginSceneGameFacade()
+    {
+        RequestManager = new Login_RequestManager();
         RequestManager.OnInit();//RequestManager 不能跟上面合并 不然会出现空指针
-        PlayerManager = new PlayerManager().OnInit();
-        CameraManager = new CameraManager().OnInit();
-        UIManager = new UIManager();
+        UIManager = new Login_UIManager();
         UIManager.OnInit();//UIManager 不能跟上面合并 不然会出现空指针
-        AudioManager = new AudioManager().OnInit();
-        ClientManager = new ClientManager().OnInit();
+        AudioManager = new Login_AudioManager().OnInit();
+    }
+
+    private void OnInitGameSceneGameFacade()
+    {
+        RequestManager = new Game_RequestManager();
+        RequestManager.OnInit();//RequestManager 不能跟上面合并 不然会出现空指针
+        PlayerManager = new Game_PlayerManager();
+        CameraManager = new Game_CameraManager();
+        UIManager = new Game_UIManager();
+        UIManager.OnInit();//UIManager 不能跟上面合并 不然会出现空指针
+        AudioManager = new Game_AudioManager().OnInit();
     }
 
     private void Awake()
     {
-        if(Instance)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            Instance = this;
-            OnIntGameFacade();
-            InvokeRepeating("OnUpdate", 0, 0.001f);
-        }
+        Instance = this;
+        SceneChanger.SetNowScene();
+        OnIntGameFacade(SceneChanger.NowScene);
+        InvokeRepeating("OnUpdate", 0, 0.001f);
     }
 
     private void OnUpdate()
     {
-        RequestManager.OnUpdate();
-        UIManager.OnUpdate();
+        if (OnUpdateEvent != null)
+        {
+            OnUpdateEvent();
+        }
     }
 
     private void OnDestroy()
@@ -53,11 +81,42 @@ public class GameFacade : MonoBehaviour
 
     private void DestoryManager()
     {
-        RequestManager.OnDesotry();
-        PlayerManager.OnDesotry();
-        CameraManager.OnDesotry();
-        UIManager.OnDesotry();
-        AudioManager.OnDesotry();
-        ClientManager.OnDesotry();
+        if (RequestManager != null)
+        {
+            RequestManager.OnDesotry();
+            RequestManager = null;
+        }
+
+        if (PlayerManager != null)
+        {
+            PlayerManager.OnDesotry();
+            PlayerManager = null;
+        }
+
+        if (CameraManager != null)
+        {
+            CameraManager.OnDesotry();
+            CameraManager = null;
+        }
+
+        if (UIManager != null)
+        {
+            UIManager.OnDesotry();
+            UIManager = null;
+        }
+
+        if (AudioManager != null)
+        {
+            AudioManager.OnDesotry();
+            AudioManager = null;
+        }
+
+        //if (ClientManager != null)
+        //{
+        //    ClientManager.OnDesotry();
+        //    ClientManager = null;
+        //}
+
+        OnUpdateEvent = null;
     }
 }

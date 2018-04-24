@@ -16,6 +16,7 @@ public class UIManager : BaseManager<UIManager>
 
     public override UIManager OnInit()
     {
+        GameFacade.Instance.OnUpdateEvent += OnUpdate;
         panelStack = new Stack<BasePanel>();
         panelDic = new Dictionary<string, BasePanel>();
         root = GameObject.Find(UINames.uiRootPath).transform;
@@ -24,7 +25,7 @@ public class UIManager : BaseManager<UIManager>
             item.OnInit();
             panelDic.Add(item.name, item);
         }
-        return base.OnInit();
+        return this;
     }
 
     public T GetPanel<T>(string panelName) where T : BasePanel
@@ -121,5 +122,10 @@ public class UIManager : BaseManager<UIManager>
         {
             messagePanel.OnExit();
         }
+    }
+
+    public override void OnDesotry()
+    {
+        GameFacade.Instance.OnUpdateEvent -= OnUpdate;
     }
 }

@@ -22,9 +22,9 @@ public abstract class BaseRequest : MonoBehaviour
 
     protected virtual void OnDestroy()
     {
-        foreach(var item in requestActionSet)
-        {
-            GameFacade.Instance.RemoveRequest(item.ActionCode);
-        }
+        //foreach(var item in requestActionSet)
+        //{
+        //    GameFacade.Instance.RemoveRequest(item.ActionCode);
+        //}
     }
 }

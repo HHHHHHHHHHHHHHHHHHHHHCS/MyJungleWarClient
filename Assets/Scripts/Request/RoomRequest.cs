@@ -104,7 +104,7 @@ public class RoomRequest : BaseRequest
 
     private void OnResponse_StartGame(string data)
     {
-        Debug.Log(1);
+        SceneChanger.ChangeScene(NowScenes.GameScene);
     }
 
     private void OnResponse_Leave(string data)

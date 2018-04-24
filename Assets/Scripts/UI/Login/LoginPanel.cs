@@ -38,7 +38,6 @@ public class LoginPanel : BasePanel
 
     public override void OnUpdate()
     {
-        base.OnUpdate();
         if (getMessage)
         {
             clsoeButton.interactable = true;

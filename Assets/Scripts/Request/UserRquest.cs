@@ -13,7 +13,7 @@ public class UserRquest : BaseRequest
         requestActionSet.Add(CreateBase(ActionCode.Register, OnResponse_Register));
     }
 
-    public void OnResponse_Login(string data)
+    private void OnResponse_Login(string data)
     {
         string[] result = data.Split(',');
         ReturnCode returnCode = (ReturnCode)int.Parse(result[0]);
@@ -27,8 +27,7 @@ public class UserRquest : BaseRequest
         }
     }
 
-
-    public void OnResponse_Register(string data)
+    private void OnResponse_Register(string data)
     {
         string[] result = data.Split(',');
         ReturnCode returnCode = (ReturnCode)int.Parse(result[0]);

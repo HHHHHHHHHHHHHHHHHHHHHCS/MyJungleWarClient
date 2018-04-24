@@ -18,20 +18,20 @@ public class RequestManager : BaseManager<RequestManager>
         }
     }
 
-
-    private Dictionary<ActionCode, RequestActionBase> requestDic
-        = new Dictionary<ActionCode, RequestActionBase>();
-    private Queue<ResponeMessage> requestMessageQueue
-         = new Queue<ResponeMessage>();
+    private Dictionary<ActionCode, RequestActionBase> requestDic;
+    private Queue<ResponeMessage> requestMessageQueue;
 
     public override RequestManager OnInit()
     {
+        GameFacade.Instance.OnUpdateEvent += OnUpdate;
+        requestDic = new Dictionary<ActionCode, RequestActionBase>();
+        requestMessageQueue = new Queue<ResponeMessage>();
         var requestArray = GameFacade.Instance.GetComponentsInChildren<BaseRequest>();
         foreach (var item in requestArray)
         {
             item.OnInit();
         }
-        return base.OnInit();
+        return this;
     }
 
     public override void OnUpdate()
@@ -46,7 +46,6 @@ public class RequestManager : BaseManager<RequestManager>
             requestDic.Add(actionCode, baseRequest);
         }
     }
-
 
     public RequestActionBase GetRequest(ActionCode actionCode)
     {
@@ -71,7 +70,7 @@ public class RequestManager : BaseManager<RequestManager>
     public void SendRequest(ActionCode actionCode, string data = "")
     {
         var code = GetRequest(actionCode);
-        if(code!=null)
+        if (code != null)
         {
             code.SendRequest(data);
         }
@@ -109,5 +108,10 @@ public class RequestManager : BaseManager<RequestManager>
                 }
             }
         }
+    }
+
+    public override void OnDesotry()
+    {
+        GameFacade.Instance.OnUpdateEvent -= OnUpdate;
     }
 }
