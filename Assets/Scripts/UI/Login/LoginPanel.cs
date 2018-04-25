@@ -112,6 +112,10 @@ public class LoginPanel : BasePanel
         {
             GameFacade.Instance.UIManager.ShowMessage("用户名或密码错误！");
         }
+        else if (code == ReturnCode.Login_Already)
+        {
+            GameFacade.Instance.UIManager.ShowMessage("账户已经登录！");
+        }
     }
 
     private void OnRegisterClick()
