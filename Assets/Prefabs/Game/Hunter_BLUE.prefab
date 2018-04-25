@@ -173,7 +173,8 @@ GameObject:
   - component: {fileID: 95470609462338338}
   - component: {fileID: 54925382017501188}
   - component: {fileID: 136967277023174076}
-  - component: {fileID: 114372756826319732}
+  - component: {fileID: 114433240500805578}
+  - component: {fileID: 114989894960072540}
   m_Layer: 8
   m_Name: Hunter_BLUE
   m_TagString: Untagged
@@ -953,7 +954,7 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 84
@@ -975,7 +976,20 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114372756826319732
+--- !u!114 &114433240500805578
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1224832649934672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8835868c2f6dbcd468870d5c53cae931, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  arrowPrefab: {fileID: 114347164504670516, guid: 6958ce4e1bdcfab49bf23baa03b548de,
+    type: 2}
+--- !u!114 &114989894960072540
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}

@@ -53,8 +53,11 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4610040753973942}
+  - component: {fileID: 54103778386197732}
+  - component: {fileID: 65126662655053598}
+  - component: {fileID: 114347164504670516}
   m_Layer: 0
-  m_Name: Arrow_Blue
+  m_Name: Arrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -70,7 +73,6 @@ GameObject:
   - component: {fileID: 4414455030640822}
   - component: {fileID: 33869806522735522}
   - component: {fileID: 23920009726231322}
-  - component: {fileID: 65597696513668362}
   m_Layer: 0
   m_Name: MainBody
   m_TagString: Untagged
@@ -256,15 +258,41 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1884015002067468}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!65 &65597696513668362
+--- !u!54 &54103778386197732
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1718493898763516}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 80
+  m_CollisionDetection: 0
+--- !u!65 &65126662655053598
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1884015002067468}
+  m_GameObject: {fileID: 1718493898763516}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 0.25, y: 0.025, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &114347164504670516
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1718493898763516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22807ab4429a8b74eb37f51797572a74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
