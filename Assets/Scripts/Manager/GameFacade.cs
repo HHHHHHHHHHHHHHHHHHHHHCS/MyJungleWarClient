@@ -51,8 +51,8 @@ public class GameFacade : MonoBehaviour
     {
         RequestManager = new Game_RequestManager();
         RequestManager.OnInit();//RequestManager 不能跟上面合并 不然会出现空指针
-        PlayerManager = new Game_PlayerManager();
-        CameraManager = new Game_CameraManager();
+        PlayerManager = new Game_PlayerManager().OnInit();
+        CameraManager = new Game_CameraManager().OnInit();
         UIManager = new Game_UIManager();
         UIManager.OnInit();//UIManager 不能跟上面合并 不然会出现空指针
         AudioManager = new Game_AudioManager().OnInit();
