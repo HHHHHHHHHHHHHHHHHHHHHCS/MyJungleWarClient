@@ -16,8 +16,8 @@ public class PlayerMove : MonoBehaviour
     {
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("Grounded"))
         {
-            float h = Input.GetAxis("Horizontal");
-            float v = Input.GetAxis("Vertical");
+            float h = Input.GetAxisRaw("Horizontal");
+            float v = Input.GetAxisRaw("Vertical");
             if (Mathf.Abs(h) > 0.001f || Mathf.Abs(v) > 0.001f)
             {
 
@@ -30,7 +30,6 @@ public class PlayerMove : MonoBehaviour
                 }
 
             }
-            Debug.Log(string.Format("h:{0},v:{1}", h, v));
             float res = Mathf.Max(Mathf.Abs(h), Mathf.Abs(v));
             anim.SetFloat("Forward", res);
         }

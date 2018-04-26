@@ -1,11 +1,13 @@
-﻿using System.Collections;
+﻿using Common.Model;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
-    [SerializeField]
     private Arrow arrowPrefab;
+    private RoleType roleType;
+    private Color col;
 
     private Animator anim;
     private Transform leftHandTs;
@@ -16,6 +18,14 @@ public class PlayerAttack : MonoBehaviour
         anim = GetComponent<Animator>();
         mainCamera = Camera.main;
         leftHandTs = transform.Find(@"Bip001/Bip001 Pelvis/Bip001 Spine/Bip001 Neck/Bip001 L Clavicle/Bip001 L UpperArm/Bip001 L Forearm/Bip001 L Hand");
+    }
+
+    public void OnInit(Arrow _arrow,RoleType _type,Color _col)
+    {
+        arrowPrefab = _arrow;
+        roleType = _type;
+        col = _col;
+        Shoot(Vector3.zero);
     }
 
     private void Update()
@@ -29,22 +39,26 @@ public class PlayerAttack : MonoBehaviour
             if (isHit)
             {
                 Vector3 point = hit.point;
-                anim.SetTrigger("Attack");
-                Shoot(point);
+                StartCoroutine(PlayShootAnim(point));
             }
         }
     }
 
-    private void Shoot(Vector3 targetPos)
+    private IEnumerator PlayShootAnim(Vector3 targetPos,float waitTime = 0.5f)
     {
         targetPos.y = transform.position.y;
         transform.LookAt(targetPos);
-        Instantiate(arrowPrefab, leftHandTs.position, Quaternion.LookRotation(targetPos));
+        anim.SetTrigger("Attack");
+        yield return new WaitForSeconds(waitTime);
+        Shoot(targetPos);
     }
 
-    private void OnDrawGizmos()
+    private void Shoot(Vector3 targetPos)
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawLine(transform.position, transform.forward * 30 + transform.position);
+        Vector3 vec3 = transform.position;
+        vec3.y = leftHandTs.position.y;
+        Instantiate(arrowPrefab, leftHandTs.position, transform.rotation)
+            .OnInit(roleType, col) ;
     }
+
 }
