@@ -6,10 +6,12 @@ using Common.Model;
 public class Game_PlayerManager : PlayerManager
 {
     private GameScene gameScene;
+    private Transform roleStartPositions;
 
     public override PlayerManager OnInit()
     {
         gameScene = GameObject.Find(ObjectNames.gameScene).GetComponent<GameScene>();
+        roleStartPositions = GameObject.Find(ObjectNames.gamePositions).transform;
         SpawnRole();
         return this;
     }
@@ -20,7 +22,7 @@ public class Game_PlayerManager : PlayerManager
         foreach (var item in gameScene.PlayerDataList.playerDataList)
         {
             var role = Object.Instantiate(item.PlayerPrefab
-                , new Vector3(Random.Range(-3, 3), 0, Random.Range(-3, 3)), Quaternion.identity);
+                , GetPosByRoleType(item.RoleType), Quaternion.identity);
             if (isFirst)
             {
                 role.AddComponent<PlayerMove>();
@@ -29,5 +31,17 @@ public class Game_PlayerManager : PlayerManager
                 isFirst = false;
             }
         }
+    }
+
+    private Vector3 GetPosByRoleType(RoleType _type)
+    {
+        foreach (Transform item in roleStartPositions)
+        {
+            if (item.name.IndexOf(_type.ToString()) >= 0)
+            {
+                return item.position;
+            }
+        }
+        return Vector3.zero;
     }
 }
