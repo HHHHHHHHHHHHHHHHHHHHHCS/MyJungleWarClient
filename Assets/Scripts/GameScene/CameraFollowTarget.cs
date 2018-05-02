@@ -29,13 +29,13 @@ public class CameraFollowTarget : MonoBehaviour
         if (target)
         {
             Vector3 endPos = target.position + offest;
-            if ((transform.position - endPos).sqrMagnitude <= sqrSmoothing)
+            if ((transform.position - endPos).sqrMagnitude <= sqrSmoothing * Time.deltaTime)
             {
                 transform.position = endPos;
             }
             else
             {
-                transform.position = (transform.position - endPos).normalized * smoothing * Time.deltaTime;
+                transform.position += (endPos - transform.position).normalized * smoothing * Time.deltaTime;
             }
         }
     }

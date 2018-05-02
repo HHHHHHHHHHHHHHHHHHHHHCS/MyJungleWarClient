@@ -16,11 +16,11 @@ public class Game_PlayerManager : PlayerManager
 
     private void SpawnRole()
     {
-        bool isFirst=true;
-        foreach(var item in gameScene.PlayerDataList.playerDataList)
+        bool isFirst = true;
+        foreach (var item in gameScene.PlayerDataList.playerDataList)
         {
-            var role =  Object.Instantiate(item.PlayerPrefab);
-            if(isFirst)
+            var role = Object.Instantiate(item.PlayerPrefab, Vector3.zero, Quaternion.identity);
+            if (isFirst)
             {
                 role.AddComponent<PlayerMove>();
                 role.AddComponent<PlayerAttack>().OnInit(gameScene.Arrow, item.RoleType, item.Color);
