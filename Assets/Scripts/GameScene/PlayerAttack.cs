@@ -25,7 +25,6 @@ public class PlayerAttack : MonoBehaviour
         arrowPrefab = _arrow;
         roleType = _type;
         col = _col;
-        Shoot(Vector3.zero);
     }
 
     private void Update()

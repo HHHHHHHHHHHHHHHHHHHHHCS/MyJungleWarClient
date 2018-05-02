@@ -16,8 +16,8 @@ public class PlayerMove : MonoBehaviour
     {
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("Grounded"))
         {
-            float h = Input.GetAxisRaw("Horizontal");
-            float v = Input.GetAxisRaw("Vertical");
+            float h = Input.GetAxis("Horizontal");
+            float v = Input.GetAxis("Vertical");
             if (Mathf.Abs(h) > 0.001f || Mathf.Abs(v) > 0.001f)
             {
 

@@ -13,13 +13,12 @@ public class Arrow : MonoBehaviour
         playerType = _type;
         foreach(Transform item in transform)
         {
-            Debug.Log(item);
             item.GetComponent<MeshRenderer>().material.color = col;
         }
     }
 
     private void Update()
     {
-        //transform.position += transform.forward * moveSpeed * Time.deltaTime;
+        transform.position += transform.forward * moveSpeed * Time.deltaTime;
     }
 }

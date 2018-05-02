@@ -16,11 +16,17 @@ public class Game_PlayerManager : PlayerManager
 
     private void SpawnRole()
     {
+        bool isFirst=true;
         foreach(var item in gameScene.PlayerDataList.playerDataList)
         {
             var role =  Object.Instantiate(item.PlayerPrefab);
-            role.AddComponent<PlayerMove>();
-            role.AddComponent<PlayerAttack>().OnInit(gameScene.Arrow, item.RoleType, item.Color);
+            if(isFirst)
+            {
+                role.AddComponent<PlayerMove>();
+                role.AddComponent<PlayerAttack>().OnInit(gameScene.Arrow, item.RoleType, item.Color);
+                Camera.main.GetComponent<CameraFollowTarget>().OnInit(role.transform);
+                isFirst = false;
+            }
         }
     }
 }
