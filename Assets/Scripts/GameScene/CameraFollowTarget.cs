@@ -22,14 +22,20 @@ public class CameraFollowTarget : MonoBehaviour
     {
         target = _target;
         //offest = transform.position - _target.position;
+        FollowTarget(true);
     }
 
     public void Update()
     {
+        FollowTarget();
+    }
+
+    private void FollowTarget(bool isArrive = false)
+    {
         if (target)
         {
             Vector3 endPos = target.position + offest;
-            if ((transform.position - endPos).sqrMagnitude <= sqrSmoothing * Time.deltaTime)
+            if (isArrive || (transform.position - endPos).sqrMagnitude <= sqrSmoothing * Time.deltaTime)
             {
                 transform.position = endPos;
             }

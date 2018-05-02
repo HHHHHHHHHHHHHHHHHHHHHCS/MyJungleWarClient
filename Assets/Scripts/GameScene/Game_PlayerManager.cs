@@ -19,7 +19,8 @@ public class Game_PlayerManager : PlayerManager
         bool isFirst = true;
         foreach (var item in gameScene.PlayerDataList.playerDataList)
         {
-            var role = Object.Instantiate(item.PlayerPrefab, Vector3.zero, Quaternion.identity);
+            var role = Object.Instantiate(item.PlayerPrefab
+                , new Vector3(Random.Range(-3, 3), 0, Random.Range(-3, 3)), Quaternion.identity);
             if (isFirst)
             {
                 role.AddComponent<PlayerMove>();
