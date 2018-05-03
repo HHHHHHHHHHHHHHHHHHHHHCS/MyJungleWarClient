@@ -85,9 +85,12 @@ public class RoomRequest : BaseRequest
 
     private void OnResponse_Ready(string data)
     {
-        string[] readyUsernameArray = data.Split(',');
-        var roomPanel = GameFacade.Instance.UIManager.GetPanel<RoomPanel>(UINames.roomPanel);
-        roomPanel.UserReady(readyUsernameArray);
+        if (!string.IsNullOrEmpty(data))
+        {
+            string[] readyUsernameArray = data.Split(',');
+            var roomPanel = GameFacade.Instance.UIManager.GetPanel<RoomPanel>(UINames.roomPanel);
+            roomPanel.UserReady(readyUsernameArray);
+        }
     }
 
     private void OnResponse_AllReady(string data)
@@ -104,7 +107,9 @@ public class RoomRequest : BaseRequest
 
     private void OnResponse_StartGame(string data)
     {
+        Debug.Log("OnResponse_StartGame");
         SceneChanger.ChangeScene(NowScenes.GameScene);
+        GameFacade.Instance.SetCurrentRole((RoleType)int.Parse(data));
     }
 
     private void OnResponse_Leave(string data)

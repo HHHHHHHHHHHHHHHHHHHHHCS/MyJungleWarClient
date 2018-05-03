@@ -78,6 +78,7 @@ public class RequestManager : BaseManager<RequestManager>
 
     public virtual void HandleRespone(ActionCode actionCode, string data)
     {
+        //Debug.Log(System.DateTime.Now + "::" + actionCode+"：：："+ data);
         lock (requestMessageQueue)
         {
             requestMessageQueue.Enqueue(new ResponeMessage(actionCode, data));
