@@ -20,11 +20,13 @@ public class PlayerAttack : MonoBehaviour
         leftHandTs = transform.Find(@"Bip001/Bip001 Pelvis/Bip001 Spine/Bip001 Neck/Bip001 L Clavicle/Bip001 L UpperArm/Bip001 L Forearm/Bip001 L Hand");
     }
 
-    public void OnInit(Arrow _arrow,RoleType _type,Color _col)
+    public PlayerAttack OnInit(Arrow _arrow,PlayerData _PlayerData)
     {
         arrowPrefab = _arrow;
-        roleType = _type;
-        col = _col;
+        roleType = _PlayerData.RoleType;
+        col = _PlayerData.Color;
+
+        return this;
     }
 
     private void Update()

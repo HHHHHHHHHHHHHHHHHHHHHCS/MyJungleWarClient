@@ -107,7 +107,6 @@ public class RoomRequest : BaseRequest
 
     private void OnResponse_StartGame(string data)
     {
-        Debug.Log("OnResponse_StartGame");
         SceneChanger.ChangeScene(NowScenes.GameScene);
         GameFacade.Instance.SetCurrentRole((RoleType)int.Parse(data));
     }
