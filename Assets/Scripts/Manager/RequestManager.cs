@@ -78,7 +78,6 @@ public class RequestManager : BaseManager<RequestManager>
 
     public virtual void HandleRespone(ActionCode actionCode, string data)
     {
-        //Debug.Log(System.DateTime.Now + "::" + actionCode+"：：："+ data);
         lock (requestMessageQueue)
         {
             requestMessageQueue.Enqueue(new ResponeMessage(actionCode, data));
@@ -99,7 +98,7 @@ public class RequestManager : BaseManager<RequestManager>
 
                 RequestActionBase baseRequest;
                 requestDic.TryGetValue(actionCode, out baseRequest);
-                if (baseRequest != null)
+                if (baseRequest != null && baseRequest.OnResponse != null)
                 {
                     baseRequest.OnResponse(data);
                 }

@@ -695,6 +695,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1340769500}
   - component: {fileID: 1340769501}
+  - component: {fileID: 1340769502}
   m_Layer: 0
   m_Name: GameFacade
   m_TagString: Untagged
@@ -724,6 +725,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 46f5a862e15d3574399f07f740d0d2a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1340769502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1340769499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70f0357b9bb858d478e03451ef866d94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1393765105

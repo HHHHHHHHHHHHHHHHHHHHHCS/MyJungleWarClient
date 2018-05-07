@@ -8,11 +8,9 @@ public class Game_PlayerManager : PlayerManager
 {
     private GameScene gameScene;
     private Transform roleStartPositions;
-    private RoleType currentRoleType;
     private Dictionary<RoleType, RoleData> playerRoleDataArray;
 
-    private GameObject currentRole;
-    private static RoleType roleType;
+    private static RoleType currentRoleType;
 
     public override PlayerManager OnInit()
     {
@@ -22,30 +20,39 @@ public class Game_PlayerManager : PlayerManager
         SpawnRole();
 
         //通知服务器加载完成了
-        GameFacade.Instance.SendRequest(ActionCode.Game_Enter, "");
+        GameFacade.Instance.SendRequest(RequestCode.Battle,ActionCode.Battle_Enter, "");
         return this;
     }
 
     private void SpawnRole()
     {
-        string currentName = roleType.ToString().ToUpper();
+        string currentName = currentRoleType.ToString().ToUpper();
         foreach (var playerData in gameScene.PlayerDataList.playerDataList)
         {
             var role = Object.Instantiate(playerData.PlayerPrefab
                 , GetPosByRoleType(playerData.RoleType), Quaternion.identity);
             var roleData = role.AddComponent<RoleData>().OnInit(playerData);
-            if (role.name.IndexOf(currentName) > 0)
-            {
-                roleData.SetCurrentPlayer(gameScene.Arrow, playerData);
-            }
-
             playerRoleDataArray.Add(playerData.RoleType, roleData);
         }
     }
 
     public static void SetCurrentRoleType(RoleType _type)
     {
-        roleType = _type;
+        currentRoleType = _type;
+    }
+
+    public void SetCurrentRoleData()
+    {
+        Debug.Log(1);
+        foreach (var playerData in gameScene.PlayerDataList.playerDataList)
+        {
+            Debug.Log(2);
+            if (playerData.RoleType == currentRoleType)
+            {
+                Debug.Log(3);
+                GetRoleData(currentRoleType).SetCurrentPlayer(gameScene.Arrow, playerData);
+            }
+        }
     }
 
     public RoleData GetRoleData(RoleType _roleType)
